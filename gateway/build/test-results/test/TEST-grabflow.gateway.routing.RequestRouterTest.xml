@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.gateway.routing.RequestRouterTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:44" hostname="MacBook-Pro-cua-Khanh.local" time="0.014">
+  <properties/>
+  <testcase name="routesSubpathToCorrectService()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.001"/>
+  <testcase name="noRouteMatchReturnsEmpty()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.0"/>
+  <testcase name="roundRobinLoadBalancing()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.001"/>
+  <testcase name="deregisterRemovesEndpoint()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.007"/>
+  <testcase name="strippedPathPreservesSlash()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.001"/>
+  <testcase name="healthEndpointRoutes()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.0"/>
+  <testcase name="serviceRegistryTracksEndpoints()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.002"/>
+  <testcase name="routesExactPrefixMatch()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.0"/>
+  <testcase name="routeCountReflectsConfiguration()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.001"/>
+  <testcase name="routesDifferentServicesCorrectly()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.0"/>
+  <testcase name="longestPrefixWins()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.0"/>
+  <testcase name="noEndpointsReturnsEmpty()" classname="grabflow.gateway.routing.RequestRouterTest" time="0.0"/>
+  <system-out><![CDATA[19:41:44.171 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.171 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.172 [Test worker] DEBUG grabflow.gateway.routing.RequestRouter -- No route matched for path: /unknown/path
+19:41:44.172 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.172 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.172 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.172 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.172 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.172 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.172 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.172 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8091
+19:41:44.173 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.173 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.173 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.173 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.173 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.173 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.173 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.179 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Deregistered endpoint for location-service: localhost:8082
+19:41:44.179 [Test worker] WARN grabflow.gateway.routing.RequestRouter -- Route matched /api/v1/locations/nearby -> location-service but no endpoints registered
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.180 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.181 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.181 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.181 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.181 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.181 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.181 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.181 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.182 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.182 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.182 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.182 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.182 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.182 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.182 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.183 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.183 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.183 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.183 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.183 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.183 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.183 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-history: localhost:8084
+19:41:44.184 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides/history -> ride-history
+19:41:44.185 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for ride-service: localhost:8081
+19:41:44.185 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for location-service: localhost:8082
+19:41:44.185 [Test worker] INFO grabflow.gateway.routing.ServiceRegistry -- Registered endpoint for pricing-service: localhost:8083
+19:41:44.185 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/rides -> ride-service
+19:41:44.185 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/locations -> location-service
+19:41:44.185 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/pricing -> pricing-service
+19:41:44.185 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /health -> ride-service
+19:41:44.185 [Test worker] INFO grabflow.gateway.routing.RequestRouter -- Route added: /api/v1/payments -> payment-service
+19:41:44.185 [Test worker] WARN grabflow.gateway.routing.RequestRouter -- Route matched /api/v1/payments/charge -> payment-service but no endpoints registered
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

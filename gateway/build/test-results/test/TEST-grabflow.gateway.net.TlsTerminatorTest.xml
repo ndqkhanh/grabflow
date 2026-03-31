@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.gateway.net.TlsTerminatorTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:36" hostname="MacBook-Pro-cua-Khanh.local" time="7.004">
+  <properties/>
+  <testcase name="generateSelfSignedKeystoreCreatesPkcs12File()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.833"/>
+  <testcase name="supportsJksKeystoreType()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.701"/>
+  <testcase name="engineEnforcesTls13Only()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.477"/>
+  <testcase name="initLoadsKeystoreAndCreatesContext()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.47"/>
+  <testcase name="getActiveCipherSuitesReturnsNonEmpty()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.48"/>
+  <testcase name="allocateBuffersReturnCorrectSizes()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.508"/>
+  <testcase name="failsWithMissingKeystore()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.477"/>
+  <testcase name="closeStopsWatcher()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.478"/>
+  <testcase name="getNegotiatedProtocolReturnsEmptyBeforeHandshake()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.631"/>
+  <testcase name="createEngineBeforeInitThrows()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.436"/>
+  <testcase name="engineConfiguresAlpnProtocols()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.454"/>
+  <testcase name="engineUsesAeadCipherSuitesOnly()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.586"/>
+  <testcase name="createEngineReturnsServerModeEngine()" classname="grabflow.gateway.net.TlsTerminatorTest" time="0.47"/>
+  <system-out><![CDATA[19:41:37.594 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit586103054848693209/generated.p12 (type: PKCS12)
+19:41:37.605 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:37.605 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+19:41:38.307 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit15782604006075702943/test-keystore.jks (type: JKS)
+19:41:38.307 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:38.307 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+19:41:38.786 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit15617263153845416276/test-keystore.p12 (type: PKCS12)
+19:41:38.786 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:38.786 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+19:41:39.257 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit14022828787507799219/test-keystore.p12 (type: PKCS12)
+19:41:39.257 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:39.257 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+19:41:39.736 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit496965252667338961/test-keystore.p12 (type: PKCS12)
+19:41:39.736 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:39.736 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+19:41:40.244 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit9372274695590087848/test-keystore.p12 (type: PKCS12)
+19:41:40.244 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:40.244 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+19:41:41.199 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit7289067234851702041/test-keystore.p12 (type: PKCS12)
+19:41:41.199 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:41.199 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+19:41:41.200 [tls-cert-watcher] ERROR grabflow.gateway.net.TlsTerminator -- Certificate watcher failed
+java.nio.file.NoSuchFileException: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit7289067234851702041
+	at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:92)
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106)
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)
+	at java.base/sun.nio.fs.UnixFileAttributeViews$Basic.readAttributes(UnixFileAttributeViews.java:55)
+	at java.base/sun.nio.fs.UnixFileSystemProvider.readAttributes(UnixFileSystemProvider.java:171)
+	at java.base/java.nio.file.Files.readAttributes(Files.java:1854)
+	at java.base/sun.nio.fs.PollingWatchService.doPrivilegedRegister(PollingWatchService.java:161)
+	at java.base/sun.nio.fs.PollingWatchService$2.run(PollingWatchService.java:143)
+	at java.base/sun.nio.fs.PollingWatchService$2.run(PollingWatchService.java:140)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:571)
+	at java.base/sun.nio.fs.PollingWatchService.register(PollingWatchService.java:139)
+	at java.base/sun.nio.fs.UnixPath.register(UnixPath.java:965)
+	at java.base/java.nio.file.Path.register(Path.java:896)
+	at grabflow.gateway.net.TlsTerminator.lambda$startCertificateWatcher$0(TlsTerminator.java:253)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:329)
+19:41:41.830 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit11515893002116192411/test-keystore.p12 (type: PKCS12)
+19:41:41.830 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:41.830 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+19:41:42.720 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit14894092436125361762/test-keystore.p12 (type: PKCS12)
+19:41:42.720 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:42.720 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+19:41:43.304 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit15186690598625883100/test-keystore.p12 (type: PKCS12)
+19:41:43.304 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:43.304 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+19:41:43.777 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- TLS 1.3 context initialized with keystore: /var/folders/vn/6mz0gbtj611dys59tgbwr1gc0000gp/T/junit3073953687391770568/test-keystore.p12 (type: PKCS12)
+19:41:43.777 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- Enabled TLS protocols: [TLSv1.3, TLSv1.2]
+19:41:43.777 [Test worker] INFO grabflow.gateway.net.TlsTerminator -- ALPN protocols: [h2, http/1.1]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

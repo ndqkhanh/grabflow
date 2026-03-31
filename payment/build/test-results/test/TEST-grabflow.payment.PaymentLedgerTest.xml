@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.payment.PaymentLedgerTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:46" hostname="MacBook-Pro-cua-Khanh.local" time="0.014">
+  <properties/>
+  <testcase name="findByRideIdReturnsAllMatchingRecords()" classname="grabflow.payment.PaymentLedgerTest" time="0.005"/>
+  <testcase name="findByRideIdReturnsEmptyForUnknownRide()" classname="grabflow.payment.PaymentLedgerTest" time="0.001"/>
+  <testcase name="findByRideIdPreservesInsertionOrder()" classname="grabflow.payment.PaymentLedgerTest" time="0.002"/>
+  <testcase name="recordAndFindByPaymentId()" classname="grabflow.payment.PaymentLedgerTest" time="0.002"/>
+  <testcase name="findByPaymentIdReturnsEmptyForUnknownId()" classname="grabflow.payment.PaymentLedgerTest" time="0.001"/>
+  <testcase name="findByPaymentIdReturnsLatestRecord()" classname="grabflow.payment.PaymentLedgerTest" time="0.0"/>
+  <testcase name="emptyLedgerReturnsEmptyForAllQueries()" classname="grabflow.payment.PaymentLedgerTest" time="0.0"/>
+  <testcase name="sizeReflectsTotalEntries()" classname="grabflow.payment.PaymentLedgerTest" time="0.001"/>
+  <testcase name="findByStatusFiltersCorrectly()" classname="grabflow.payment.PaymentLedgerTest" time="0.001"/>
+  <system-out><![CDATA[19:41:46.578 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=ride-A, status=AUTHORIZED, amount=15.5)
+19:41:46.579 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=ride-A, status=CAPTURED, amount=15.5)
+19:41:46.579 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p2 (ride=ride-B, status=CAPTURED, amount=15.5)
+19:41:46.584 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=ride-A, status=CAPTURED, amount=15.5)
+19:41:46.585 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=ride-X, status=AUTHORIZED, amount=15.5)
+19:41:46.585 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p2 (ride=ride-X, status=CAPTURED, amount=15.5)
+19:41:46.585 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p3 (ride=ride-X, status=REFUNDED, amount=15.5)
+19:41:46.587 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=r1, status=CAPTURED, amount=15.5)
+19:41:46.589 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=r1, status=CAPTURED, amount=15.5)
+19:41:46.590 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=r1, status=AUTHORIZED, amount=15.5)
+19:41:46.590 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=r1, status=CAPTURED, amount=15.5)
+19:41:46.591 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=r1, status=AUTHORIZED, amount=15.5)
+19:41:46.591 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=r1, status=CAPTURED, amount=15.5)
+19:41:46.592 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p1 (ride=r1, status=CAPTURED, amount=15.5)
+19:41:46.592 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p2 (ride=r2, status=FAILED, amount=15.5)
+19:41:46.592 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment p3 (ride=r3, status=CAPTURED, amount=15.5)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

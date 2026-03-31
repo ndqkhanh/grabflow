@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.gateway.ratelimit.BloomFilterTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:43" hostname="MacBook-Pro-cua-Khanh.local" time="0.173">
+  <properties/>
+  <testcase name="falsePositiveRateIsWithinBounds()" classname="grabflow.gateway.ratelimit.BloomFilterTest" time="0.027"/>
+  <testcase name="optimalParameterCalculation()" classname="grabflow.gateway.ratelimit.BloomFilterTest" time="0.001"/>
+  <testcase name="threadSafety()" classname="grabflow.gateway.ratelimit.BloomFilterTest" time="0.016"/>
+  <testcase name="doesNotContainAbsentElement()" classname="grabflow.gateway.ratelimit.BloomFilterTest" time="0.0"/>
+  <testcase name="hashDistributionIsUniform()" classname="grabflow.gateway.ratelimit.BloomFilterTest" time="0.002"/>
+  <testcase name="factoryMethodCreatesCorrectFilter()" classname="grabflow.gateway.ratelimit.BloomFilterTest" time="0.002"/>
+  <testcase name="largeScaleInsertions()" classname="grabflow.gateway.ratelimit.BloomFilterTest" time="0.125"/>
+  <testcase name="emptyFilterContainsNothing()" classname="grabflow.gateway.ratelimit.BloomFilterTest" time="0.0"/>
+  <testcase name="addAndContains()" classname="grabflow.gateway.ratelimit.BloomFilterTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

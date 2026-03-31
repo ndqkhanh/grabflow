@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.notification.NotificationQueueTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:45" hostname="MacBook-Pro-cua-Khanh.local" time="0.083">
+  <properties/>
+  <testcase name="higherPriorityDequeuedFirst()" classname="grabflow.notification.NotificationQueueTest" time="0.059"/>
+  <testcase name="emptyQueueReturnsEmpty()" classname="grabflow.notification.NotificationQueueTest" time="0.0"/>
+  <testcase name="retryEntryDeliverableAfterDelay()" classname="grabflow.notification.NotificationQueueTest" time="0.014"/>
+  <testcase name="samePriorityPreservesInsertionOrder()" classname="grabflow.notification.NotificationQueueTest" time="0.004"/>
+  <testcase name="retryEnqueueIncrementsPendingRetries()" classname="grabflow.notification.NotificationQueueTest" time="0.001"/>
+  <testcase name="retryEntryNotDeliverableBeforeDelay()" classname="grabflow.notification.NotificationQueueTest" time="0.0"/>
+  <testcase name="sizeReflectsEnqueueCount()" classname="grabflow.notification.NotificationQueueTest" time="0.0"/>
+  <testcase name="enqueuedItemCanBeDequeued()" classname="grabflow.notification.NotificationQueueTest" time="0.0"/>
+  <testcase name="sizeDecreasesAfterDequeue()" classname="grabflow.notification.NotificationQueueTest" time="0.001"/>
+  <system-out><![CDATA[19:41:45.703 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=low priority=3
+19:41:45.704 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=high priority=10
+19:41:45.704 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Dequeued id=high retryCount=0
+19:41:45.725 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Dequeued id=low retryCount=0
+19:41:45.730 [Test worker] INFO grabflow.notification.NotificationQueue -- Scheduled retry #1 id=r-3 deliverAfter=2026-03-31T12:41:45.731100Z
+19:41:45.742 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Dequeued id=r-3 retryCount=1
+19:41:45.744 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=first priority=5
+19:41:45.747 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=second priority=5
+19:41:45.747 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Dequeued id=first retryCount=0
+19:41:45.747 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Dequeued id=second retryCount=0
+19:41:45.748 [Test worker] INFO grabflow.notification.NotificationQueue -- Scheduled retry #1 id=r-1 deliverAfter=2026-03-31T12:41:45.749931Z
+19:41:45.749 [Test worker] INFO grabflow.notification.NotificationQueue -- Scheduled retry #1 id=r-2 deliverAfter=2026-03-31T13:41:45.749744Z
+19:41:45.750 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=a priority=8
+19:41:45.750 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=b priority=8
+19:41:45.751 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=n-1 priority=5
+19:41:45.751 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Dequeued id=n-1 retryCount=0
+19:41:45.752 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=x priority=9
+19:41:45.752 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Dequeued id=x retryCount=0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

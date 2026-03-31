@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.pricing.PricingServiceTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:47" hostname="MacBook-Pro-cua-Khanh.local" time="0.014">
+  <properties/>
+  <testcase name="unknownPromoCodeNotApplied()" classname="grabflow.pricing.PricingServiceTest" time="0.002"/>
+  <testcase name="blankPromoCodeSkipped()" classname="grabflow.pricing.PricingServiceTest" time="0.001"/>
+  <testcase name="expiredPromoCodeNotApplied()" classname="grabflow.pricing.PricingServiceTest" time="0.002"/>
+  <testcase name="surgeMultiplierIsAppliedToFare()" classname="grabflow.pricing.PricingServiceTest" time="0.001"/>
+  <testcase name="surgeAndPromoAppliedTogether()" classname="grabflow.pricing.PricingServiceTest" time="0.001"/>
+  <testcase name="validPromoCodeReducesFinalPrice()" classname="grabflow.pricing.PricingServiceTest" time="0.001"/>
+  <testcase name="minimumFareAppliedForShortTrip()" classname="grabflow.pricing.PricingServiceTest" time="0.0"/>
+  <testcase name="nullPromoValidatorThrows()" classname="grabflow.pricing.PricingServiceTest" time="0.001"/>
+  <testcase name="nullFareEstimatorThrows()" classname="grabflow.pricing.PricingServiceTest" time="0.001"/>
+  <testcase name="promoAppliedCaseInsensitively()" classname="grabflow.pricing.PricingServiceTest" time="0.001"/>
+  <testcase name="nullSurgeCalculatorThrows()" classname="grabflow.pricing.PricingServiceTest" time="0.001"/>
+  <testcase name="priceQuoteFareBreakdownIsComplete()" classname="grabflow.pricing.PricingServiceTest" time="0.0"/>
+  <testcase name="standardFareWithNoSurgeNoPromo()" classname="grabflow.pricing.PricingServiceTest" time="0.001"/>
+  <system-out><![CDATA[19:41:47.153 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=10.0 min, surge=1.0 -> total=3.8
+19:41:47.153 [Test worker] DEBUG grabflow.pricing.PromoCodeValidator -- Promo code not found: NOSUCHCODE
+19:41:47.154 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=5.0 km, time=10.0 min, surge=1.0, promo=null, final=3.8
+19:41:47.155 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=10.0 min, surge=1.0 -> total=3.8
+19:41:47.155 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=5.0 km, time=10.0 min, surge=1.0, promo=null, final=3.8
+19:41:47.155 [Test worker] INFO grabflow.pricing.PromoCodeValidator -- Promo code registered: OLD (30.0% off, expires 2026-03-31T12:41:46.155723Z)
+19:41:47.155 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=10.0 min, surge=1.0 -> total=3.8
+19:41:47.155 [Test worker] DEBUG grabflow.pricing.PromoCodeValidator -- Promo code expired: OLD (expired at 2026-03-31T12:41:46.155723Z)
+19:41:47.155 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=5.0 km, time=10.0 min, surge=1.0, promo=null, final=3.8
+19:41:47.157 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Supply updated for zone 103582791429521474: 1 drivers
+19:41:47.157 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 103582791429521474
+19:41:47.157 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 103582791429521474
+19:41:47.158 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 103582791429521474
+19:41:47.158 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 103582791429521474
+19:41:47.158 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Zone 103582791429521474 surge: demand=4, supply=1, ratio=4.0, multiplier=2.0
+19:41:47.158 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=10.0 min, surge=2.0 -> total=7.6
+19:41:47.158 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=5.0 km, time=10.0 min, surge=2.0, promo=null, final=7.6
+19:41:47.158 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=10.0 min, surge=1.0 -> total=3.8
+19:41:47.159 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Supply updated for zone 103582791429521474: 1 drivers
+19:41:47.159 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 103582791429521474
+19:41:47.159 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 103582791429521474
+19:41:47.159 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 103582791429521474
+19:41:47.159 [Test worker] INFO grabflow.pricing.PromoCodeValidator -- Promo code registered: HALF (50.0% off, expires 2026-03-31T13:41:47.159199Z)
+19:41:47.159 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Zone 103582791429521474 surge: demand=3, supply=1, ratio=3.0, multiplier=1.75
+19:41:47.159 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=4.0 km, time=8.0 min, surge=1.75 -> total=5.67
+19:41:47.159 [Test worker] DEBUG grabflow.pricing.PromoCodeValidator -- Promo code valid: HALF (50.0% off)
+19:41:47.159 [Test worker] INFO grabflow.pricing.PromoCodeValidator -- Promo HALF applied: 5.67 -> 2.835 (50.0% off)
+19:41:47.159 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=4.0 km, time=8.0 min, surge=1.75, promo=HALF, final=2.835
+19:41:47.160 [Test worker] INFO grabflow.pricing.PromoCodeValidator -- Promo code registered: SAVE20 (20.0% off, expires 2026-03-31T13:41:47.160065Z)
+19:41:47.160 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=10.0 min, surge=1.0 -> total=3.8
+19:41:47.160 [Test worker] DEBUG grabflow.pricing.PromoCodeValidator -- Promo code valid: SAVE20 (20.0% off)
+19:41:47.160 [Test worker] INFO grabflow.pricing.PromoCodeValidator -- Promo SAVE20 applied: 3.8 -> 3.04 (20.0% off)
+19:41:47.160 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=5.0 km, time=10.0 min, surge=1.0, promo=SAVE20, final=3.04
+19:41:47.160 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=10.0 min, surge=1.0 -> total=3.8
+19:41:47.160 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=5.0 km, time=10.0 min, surge=1.0, promo=null, final=3.8
+19:41:47.161 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Supply updated for zone 103582791429521474: 10 drivers
+19:41:47.161 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=0.1 km, time=1.0 min, surge=1.0 -> total=2.0
+19:41:47.161 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=0.1 km, time=1.0 min, surge=1.0, promo=null, final=2.0
+19:41:47.163 [Test worker] INFO grabflow.pricing.PromoCodeValidator -- Promo code registered: GRAB10 (10.0% off, expires 2026-03-31T13:41:47.163965Z)
+19:41:47.164 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=10.0 min, surge=1.0 -> total=3.8
+19:41:47.164 [Test worker] DEBUG grabflow.pricing.PromoCodeValidator -- Promo code valid: grab10 (10.0% off)
+19:41:47.164 [Test worker] INFO grabflow.pricing.PromoCodeValidator -- Promo GRAB10 applied: 3.8 -> 3.42 (10.0% off)
+19:41:47.164 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=5.0 km, time=10.0 min, surge=1.0, promo=GRAB10, final=3.42
+19:41:47.164 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=10.0 min, surge=1.0 -> total=3.8
+19:41:47.164 [Test worker] DEBUG grabflow.pricing.PromoCodeValidator -- Promo code valid: GRAB10 (10.0% off)
+19:41:47.164 [Test worker] INFO grabflow.pricing.PromoCodeValidator -- Promo GRAB10 applied: 3.8 -> 3.42 (10.0% off)
+19:41:47.164 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=5.0 km, time=10.0 min, surge=1.0, promo=GRAB10, final=3.42
+19:41:47.165 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=3.0 km, time=7.0 min, surge=1.0 -> total=2.7600000000000002
+19:41:47.165 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=3.0 km, time=7.0 min, surge=1.0, promo=null, final=2.7600000000000002
+19:41:47.166 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Supply updated for zone 103582791429521474: 5 drivers
+19:41:47.166 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 103582791429521474
+19:41:47.166 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 103582791429521474
+19:41:47.166 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 103582791429521474
+19:41:47.166 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Zone 103582791429521474 surge: demand=3, supply=5, ratio=0.6, multiplier=1.0
+19:41:47.166 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=10.0 min, surge=1.0 -> total=3.8
+19:41:47.166 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=103582791429521474, dist=5.0 km, time=10.0 min, surge=1.0, promo=null, final=3.8
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

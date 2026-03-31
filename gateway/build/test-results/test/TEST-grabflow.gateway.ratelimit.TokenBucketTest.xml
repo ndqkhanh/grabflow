@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.gateway.ratelimit.TokenBucketTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:43" hostname="MacBook-Pro-cua-Khanh.local" time="0.217">
+  <properties/>
+  <testcase name="tokensRefillOverTime()" classname="grabflow.gateway.ratelimit.TokenBucketTest" time="0.055"/>
+  <testcase name="availableTokensReportsCorrectly()" classname="grabflow.gateway.ratelimit.TokenBucketTest" time="0.0"/>
+  <testcase name="evictIdleRemovesStaleClients()" classname="grabflow.gateway.ratelimit.TokenBucketTest" time="0.054"/>
+  <testcase name="separateBucketsPerClient()" classname="grabflow.gateway.ratelimit.TokenBucketTest" time="0.0"/>
+  <testcase name="rejectsWhenBucketExhausted()" classname="grabflow.gateway.ratelimit.TokenBucketTest" time="0.001"/>
+  <testcase name="allowsRequestsWithinCapacity()" classname="grabflow.gateway.ratelimit.TokenBucketTest" time="0.0"/>
+  <testcase name="threadSafetyConcurrentAccess()" classname="grabflow.gateway.ratelimit.TokenBucketTest" time="0.002"/>
+  <testcase name="tokensDoNotExceedCapacity()" classname="grabflow.gateway.ratelimit.TokenBucketTest" time="0.102"/>
+  <testcase name="clientCountTracksUniquClients()" classname="grabflow.gateway.ratelimit.TokenBucketTest" time="0.0"/>
+  <testcase name="invalidParametersThrow()" classname="grabflow.gateway.ratelimit.TokenBucketTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

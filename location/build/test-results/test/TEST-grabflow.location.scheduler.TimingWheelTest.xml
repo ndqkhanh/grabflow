@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.location.scheduler.TimingWheelTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:45" hostname="MacBook-Pro-cua-Khanh.local" time="0.02">
+  <properties/>
+  <testcase name="hierarchicalCascade()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.001"/>
+  <testcase name="cancelledTaskRejected()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.0"/>
+  <testcase name="taskFiresAtDeadline()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.0"/>
+  <testcase name="expiredTaskRejected()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.001"/>
+  <testcase name="pendingCountAccurate()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.0"/>
+  <testcase name="taskExecutionOrder()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.001"/>
+  <testcase name="performanceO1Insert()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.014"/>
+  <testcase name="multipleTasksSameSlot()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.0"/>
+  <testcase name="taskDoesNotFireBeforeDeadline()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.001"/>
+  <testcase name="overflowWheelHandlesLargeDeadlines()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.0"/>
+  <testcase name="cancelledTaskDoesNotFire()" classname="grabflow.location.scheduler.TimingWheelTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

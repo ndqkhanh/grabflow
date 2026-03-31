@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - PaymentServiceTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>PaymentServiceTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/grabflow.payment.html">grabflow.payment</a> &gt; PaymentServiceTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">10</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.016s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">differentKeysProduceIndependentCharges()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">duplicateRequestWithSameKeyReturnsCachedResult()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">failedSagaRecordsFailedStatusInLedger()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">ledgerFindByStatusWorksAcrossMultipleCharges()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">processChargeStoresResultInIdempotencyStore()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">refundAlreadyRefundedPaymentIsRejected()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">refundCapturedPaymentChangesStatusToRefunded()</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">refundUnknownPaymentReturnsFailed()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">successfulChargeIsRecordedInLedger()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">successfulChargeReturnsCapuredStatus()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>19:41:46.596 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-cfed8891-baf7-46ff-b676-05e240517181] starting with 3 step(s)
+19:41:46.596 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-cfed8891-baf7-46ff-b676-05e240517181] executing step 'authorize_payment'
+19:41:46.596 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-B5B89CF7)
+19:41:46.596 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-cfed8891-baf7-46ff-b676-05e240517181] step 'authorize_payment' succeeded
+19:41:46.596 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-cfed8891-baf7-46ff-b676-05e240517181] executing step 'capture_payment'
+19:41:46.596 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 20.0 against auth AUTH-B5B89CF7 (captureId=CAP-3529F6F6)
+19:41:46.596 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-cfed8891-baf7-46ff-b676-05e240517181] step 'capture_payment' succeeded
+19:41:46.596 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-cfed8891-baf7-46ff-b676-05e240517181] executing step 'pay_driver'
+19:41:46.597 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-1 amount 20.0 (transferId=TXN-66B9D78B)
+19:41:46.597 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-cfed8891-baf7-46ff-b676-05e240517181] step 'pay_driver' succeeded
+19:41:46.597 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-cfed8891-baf7-46ff-b676-05e240517181] completed successfully (3 step(s))
+19:41:46.597 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment cfed8891-baf7-46ff-b676-05e240517181 (ride=ride-6, status=CAPTURED, amount=20.0)
+19:41:46.599 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-6' expiring at 2026-04-01T12:41:46.599351Z
+19:41:46.599 [Test worker] INFO grabflow.payment.PaymentService -- Charge cfed8891-baf7-46ff-b676-05e240517181 for ride ride-6 completed with status CAPTURED
+19:41:46.599 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment cfed8891-baf7-46ff-b676-05e240517181 (ride=ride-6, status=REFUNDED, amount=20.0)
+19:41:46.599 [Test worker] INFO grabflow.payment.PaymentService -- Payment 'cfed8891-baf7-46ff-b676-05e240517181' refunded successfully
+19:41:46.600 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-38eb4185-1096-42cd-af4d-333fe053ece9] starting with 3 step(s)
+19:41:46.600 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-38eb4185-1096-42cd-af4d-333fe053ece9] executing step 'authorize_payment'
+19:41:46.600 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-8C343DFA)
+19:41:46.600 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-38eb4185-1096-42cd-af4d-333fe053ece9] step 'authorize_payment' succeeded
+19:41:46.600 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-38eb4185-1096-42cd-af4d-333fe053ece9] executing step 'capture_payment'
+19:41:46.600 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 20.0 against auth AUTH-8C343DFA (captureId=CAP-B76B1AB6)
+19:41:46.600 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-38eb4185-1096-42cd-af4d-333fe053ece9] step 'capture_payment' succeeded
+19:41:46.600 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-38eb4185-1096-42cd-af4d-333fe053ece9] executing step 'pay_driver'
+19:41:46.600 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-1 amount 20.0 (transferId=TXN-0CE37D05)
+19:41:46.600 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-38eb4185-1096-42cd-af4d-333fe053ece9] step 'pay_driver' succeeded
+19:41:46.600 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-38eb4185-1096-42cd-af4d-333fe053ece9] completed successfully (3 step(s))
+19:41:46.600 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment 38eb4185-1096-42cd-af4d-333fe053ece9 (ride=ride-1, status=CAPTURED, amount=20.0)
+19:41:46.600 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-1' expiring at 2026-04-01T12:41:46.600994Z
+19:41:46.601 [Test worker] INFO grabflow.payment.PaymentService -- Charge 38eb4185-1096-42cd-af4d-333fe053ece9 for ride ride-1 completed with status CAPTURED
+19:41:46.602 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-324b61ba-74bd-4c44-a243-889e75772679] starting with 3 step(s)
+19:41:46.602 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-324b61ba-74bd-4c44-a243-889e75772679] executing step 'authorize_payment'
+19:41:46.602 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-D9A7F274)
+19:41:46.602 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-324b61ba-74bd-4c44-a243-889e75772679] step 'authorize_payment' succeeded
+19:41:46.602 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-324b61ba-74bd-4c44-a243-889e75772679] executing step 'capture_payment'
+19:41:46.602 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 20.0 against auth AUTH-D9A7F274 (captureId=CAP-F6BCA86D)
+19:41:46.602 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-324b61ba-74bd-4c44-a243-889e75772679] step 'capture_payment' succeeded
+19:41:46.602 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-324b61ba-74bd-4c44-a243-889e75772679] executing step 'pay_driver'
+19:41:46.602 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-1 amount 20.0 (transferId=TXN-38624F8A)
+19:41:46.602 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-324b61ba-74bd-4c44-a243-889e75772679] step 'pay_driver' succeeded
+19:41:46.602 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-324b61ba-74bd-4c44-a243-889e75772679] completed successfully (3 step(s))
+19:41:46.603 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment 324b61ba-74bd-4c44-a243-889e75772679 (ride=ride-10a, status=CAPTURED, amount=20.0)
+19:41:46.603 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-10a' expiring at 2026-04-01T12:41:46.603118Z
+19:41:46.603 [Test worker] INFO grabflow.payment.PaymentService -- Charge 324b61ba-74bd-4c44-a243-889e75772679 for ride ride-10a completed with status CAPTURED
+19:41:46.603 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-efc8ad08-fd13-40c7-bfa7-4415522273f8] starting with 3 step(s)
+19:41:46.603 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-efc8ad08-fd13-40c7-bfa7-4415522273f8] executing step 'authorize_payment'
+19:41:46.603 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-D30FF35B)
+19:41:46.603 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-efc8ad08-fd13-40c7-bfa7-4415522273f8] step 'authorize_payment' succeeded
+19:41:46.603 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-efc8ad08-fd13-40c7-bfa7-4415522273f8] executing step 'capture_payment'
+19:41:46.603 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 20.0 against auth AUTH-D30FF35B (captureId=CAP-B26BFC5B)
+19:41:46.603 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-efc8ad08-fd13-40c7-bfa7-4415522273f8] step 'capture_payment' succeeded
+19:41:46.603 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-efc8ad08-fd13-40c7-bfa7-4415522273f8] executing step 'pay_driver'
+19:41:46.603 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-1 amount 20.0 (transferId=TXN-F9E0F5C5)
+19:41:46.603 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-efc8ad08-fd13-40c7-bfa7-4415522273f8] step 'pay_driver' succeeded
+19:41:46.603 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-efc8ad08-fd13-40c7-bfa7-4415522273f8] completed successfully (3 step(s))
+19:41:46.603 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment efc8ad08-fd13-40c7-bfa7-4415522273f8 (ride=ride-10b, status=CAPTURED, amount=20.0)
+19:41:46.603 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-10b' expiring at 2026-04-01T12:41:46.603736Z
+19:41:46.603 [Test worker] INFO grabflow.payment.PaymentService -- Charge efc8ad08-fd13-40c7-bfa7-4415522273f8 for ride ride-10b completed with status CAPTURED
+19:41:46.604 [Test worker] WARN grabflow.payment.PaymentService -- Refund requested for unknown payment 'nonexistent-payment-id'
+19:41:46.605 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-046f9622-eae5-48ca-b8c7-dfc6835a6680] starting with 3 step(s)
+19:41:46.605 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-046f9622-eae5-48ca-b8c7-dfc6835a6680] executing step 'authorize_payment'
+19:41:46.605 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-251B8FAD)
+19:41:46.605 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-046f9622-eae5-48ca-b8c7-dfc6835a6680] step 'authorize_payment' succeeded
+19:41:46.605 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-046f9622-eae5-48ca-b8c7-dfc6835a6680] executing step 'capture_payment'
+19:41:46.605 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 20.0 against auth AUTH-251B8FAD (captureId=CAP-26ED9D2D)
+19:41:46.605 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-046f9622-eae5-48ca-b8c7-dfc6835a6680] step 'capture_payment' succeeded
+19:41:46.605 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-046f9622-eae5-48ca-b8c7-dfc6835a6680] executing step 'pay_driver'
+19:41:46.605 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-1 amount 20.0 (transferId=TXN-99D17C4A)
+19:41:46.605 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-046f9622-eae5-48ca-b8c7-dfc6835a6680] step 'pay_driver' succeeded
+19:41:46.605 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-046f9622-eae5-48ca-b8c7-dfc6835a6680] completed successfully (3 step(s))
+19:41:46.605 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment 046f9622-eae5-48ca-b8c7-dfc6835a6680 (ride=ride-4a, status=CAPTURED, amount=20.0)
+19:41:46.605 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-4a' expiring at 2026-04-01T12:41:46.605957Z
+19:41:46.606 [Test worker] INFO grabflow.payment.PaymentService -- Charge 046f9622-eae5-48ca-b8c7-dfc6835a6680 for ride ride-4a completed with status CAPTURED
+19:41:46.606 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-77f062df-39ec-4adc-bca9-016b29709a73] starting with 3 step(s)
+19:41:46.606 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-77f062df-39ec-4adc-bca9-016b29709a73] executing step 'authorize_payment'
+19:41:46.606 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-DC0B3B3E)
+19:41:46.606 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-77f062df-39ec-4adc-bca9-016b29709a73] step 'authorize_payment' succeeded
+19:41:46.606 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-77f062df-39ec-4adc-bca9-016b29709a73] executing step 'capture_payment'
+19:41:46.606 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 20.0 against auth AUTH-DC0B3B3E (captureId=CAP-5757D2EB)
+19:41:46.606 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-77f062df-39ec-4adc-bca9-016b29709a73] step 'capture_payment' succeeded
+19:41:46.606 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-77f062df-39ec-4adc-bca9-016b29709a73] executing step 'pay_driver'
+19:41:46.606 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-1 amount 20.0 (transferId=TXN-B46EFDE9)
+19:41:46.606 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-77f062df-39ec-4adc-bca9-016b29709a73] step 'pay_driver' succeeded
+19:41:46.606 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-77f062df-39ec-4adc-bca9-016b29709a73] completed successfully (3 step(s))
+19:41:46.606 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment 77f062df-39ec-4adc-bca9-016b29709a73 (ride=ride-4b, status=CAPTURED, amount=20.0)
+19:41:46.606 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-4b' expiring at 2026-04-01T12:41:46.606566Z
+19:41:46.606 [Test worker] INFO grabflow.payment.PaymentService -- Charge 77f062df-39ec-4adc-bca9-016b29709a73 for ride ride-4b completed with status CAPTURED
+19:41:46.607 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-021f8c57-ca9c-4172-bbf5-ab63cd39f852] starting with 3 step(s)
+19:41:46.607 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-021f8c57-ca9c-4172-bbf5-ab63cd39f852] executing step 'authorize_payment'
+19:41:46.607 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-6242C0CD)
+19:41:46.607 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-021f8c57-ca9c-4172-bbf5-ab63cd39f852] step 'authorize_payment' succeeded
+19:41:46.607 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-021f8c57-ca9c-4172-bbf5-ab63cd39f852] executing step 'capture_payment'
+19:41:46.607 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 20.0 against auth AUTH-6242C0CD (captureId=CAP-A2152B35)
+19:41:46.607 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-021f8c57-ca9c-4172-bbf5-ab63cd39f852] step 'capture_payment' succeeded
+19:41:46.607 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-021f8c57-ca9c-4172-bbf5-ab63cd39f852] executing step 'pay_driver'
+19:41:46.607 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-1 amount 20.0 (transferId=TXN-BC7C9BC7)
+19:41:46.607 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-021f8c57-ca9c-4172-bbf5-ab63cd39f852] step 'pay_driver' succeeded
+19:41:46.607 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-021f8c57-ca9c-4172-bbf5-ab63cd39f852] completed successfully (3 step(s))
+19:41:46.607 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment 021f8c57-ca9c-4172-bbf5-ab63cd39f852 (ride=ride-2, status=CAPTURED, amount=20.0)
+19:41:46.607 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-2' expiring at 2026-04-01T12:41:46.607833Z
+19:41:46.607 [Test worker] INFO grabflow.payment.PaymentService -- Charge 021f8c57-ca9c-4172-bbf5-ab63cd39f852 for ride ride-2 completed with status CAPTURED
+19:41:46.609 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-25d06961-619d-4776-9608-1188ad1eda40] starting with 3 step(s)
+19:41:46.609 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-25d06961-619d-4776-9608-1188ad1eda40] executing step 'authorize_payment'
+19:41:46.609 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-5BC16C56)
+19:41:46.609 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-25d06961-619d-4776-9608-1188ad1eda40] step 'authorize_payment' succeeded
+19:41:46.609 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-25d06961-619d-4776-9608-1188ad1eda40] executing step 'capture_payment'
+19:41:46.609 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 20.0 against auth AUTH-5BC16C56 (captureId=CAP-C9BE009A)
+19:41:46.609 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-25d06961-619d-4776-9608-1188ad1eda40] step 'capture_payment' succeeded
+19:41:46.609 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-25d06961-619d-4776-9608-1188ad1eda40] executing step 'pay_driver'
+19:41:46.609 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-1 amount 20.0 (transferId=TXN-0BFAAA45)
+19:41:46.609 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-25d06961-619d-4776-9608-1188ad1eda40] step 'pay_driver' succeeded
+19:41:46.609 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-25d06961-619d-4776-9608-1188ad1eda40] completed successfully (3 step(s))
+19:41:46.609 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment 25d06961-619d-4776-9608-1188ad1eda40 (ride=ride-3, status=CAPTURED, amount=20.0)
+19:41:46.609 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-3' expiring at 2026-04-01T12:41:46.609770Z
+19:41:46.609 [Test worker] INFO grabflow.payment.PaymentService -- Charge 25d06961-619d-4776-9608-1188ad1eda40 for ride ride-3 completed with status CAPTURED
+19:41:46.609 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Idempotency hit for key 'idem-3'
+19:41:46.609 [Test worker] INFO grabflow.payment.PaymentService -- Idempotent duplicate for key 'idem-3' — returning cached result
+19:41:46.610 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-2D27EBFC)
+19:41:46.610 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Voiding authorization AUTH-2D27EBFC for rider rider-1
+19:41:46.610 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment 43f07bce-e3a1-47b6-af97-bd0fc5382009 (ride=ride-5, status=FAILED, amount=20.0)
+19:41:46.610 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-5' expiring at 2026-04-01T12:41:46.610901Z
+19:41:46.610 [Test worker] INFO grabflow.payment.PaymentService -- Charge 43f07bce-e3a1-47b6-af97-bd0fc5382009 for ride ride-5 completed with status FAILED
+19:41:46.611 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-56479698-c665-47d7-913c-9eb5fcbb22ba] starting with 3 step(s)
+19:41:46.611 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-56479698-c665-47d7-913c-9eb5fcbb22ba] executing step 'authorize_payment'
+19:41:46.611 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-A88C1E73)
+19:41:46.611 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-56479698-c665-47d7-913c-9eb5fcbb22ba] step 'authorize_payment' succeeded
+19:41:46.611 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-56479698-c665-47d7-913c-9eb5fcbb22ba] executing step 'capture_payment'
+19:41:46.611 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 20.0 against auth AUTH-A88C1E73 (captureId=CAP-63037C43)
+19:41:46.611 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-56479698-c665-47d7-913c-9eb5fcbb22ba] step 'capture_payment' succeeded
+19:41:46.611 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-56479698-c665-47d7-913c-9eb5fcbb22ba] executing step 'pay_driver'
+19:41:46.611 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-1 amount 20.0 (transferId=TXN-EB453928)
+19:41:46.611 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-56479698-c665-47d7-913c-9eb5fcbb22ba] step 'pay_driver' succeeded
+19:41:46.611 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-56479698-c665-47d7-913c-9eb5fcbb22ba] completed successfully (3 step(s))
+19:41:46.611 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment 56479698-c665-47d7-913c-9eb5fcbb22ba (ride=ride-8, status=CAPTURED, amount=20.0)
+19:41:46.611 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-8' expiring at 2026-04-01T12:41:46.611932Z
+19:41:46.611 [Test worker] INFO grabflow.payment.PaymentService -- Charge 56479698-c665-47d7-913c-9eb5fcbb22ba for ride ride-8 completed with status CAPTURED
+19:41:46.611 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment 56479698-c665-47d7-913c-9eb5fcbb22ba (ride=ride-8, status=REFUNDED, amount=20.0)
+19:41:46.612 [Test worker] INFO grabflow.payment.PaymentService -- Payment '56479698-c665-47d7-913c-9eb5fcbb22ba' refunded successfully
+19:41:46.612 [Test worker] WARN grabflow.payment.PaymentService -- Refund rejected — payment '56479698-c665-47d7-913c-9eb5fcbb22ba' is in status REFUNDED
+19:41:46.612 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-c0b62bb4-aca2-4a87-be15-88ca5f288750] starting with 3 step(s)
+19:41:46.612 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-c0b62bb4-aca2-4a87-be15-88ca5f288750] executing step 'authorize_payment'
+19:41:46.612 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 20.0 for rider rider-1 (authCode=AUTH-9CDA897F)
+19:41:46.612 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-c0b62bb4-aca2-4a87-be15-88ca5f288750] step 'authorize_payment' succeeded
+19:41:46.612 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-c0b62bb4-aca2-4a87-be15-88ca5f288750] executing step 'capture_payment'
+19:41:46.612 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 20.0 against auth AUTH-9CDA897F (captureId=CAP-1E653255)
+19:41:46.612 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-c0b62bb4-aca2-4a87-be15-88ca5f288750] step 'capture_payment' succeeded
+19:41:46.612 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-c0b62bb4-aca2-4a87-be15-88ca5f288750] executing step 'pay_driver'
+19:41:46.612 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-1 amount 20.0 (transferId=TXN-5E76013A)
+19:41:46.612 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-c0b62bb4-aca2-4a87-be15-88ca5f288750] step 'pay_driver' succeeded
+19:41:46.612 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-c0b62bb4-aca2-4a87-be15-88ca5f288750] completed successfully (3 step(s))
+19:41:46.613 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment c0b62bb4-aca2-4a87-be15-88ca5f288750 (ride=ride-9, status=CAPTURED, amount=20.0)
+19:41:46.613 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-9' expiring at 2026-04-01T12:41:46.613058Z
+19:41:46.613 [Test worker] INFO grabflow.payment.PaymentService -- Charge c0b62bb4-aca2-4a87-be15-88ca5f288750 for ride ride-9 completed with status CAPTURED
+19:41:46.613 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Idempotency hit for key 'idem-9'
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.10.2</a> at Mar 31, 2026, 7:41:46 PM</p>
+</div>
+</div>
+</body>
+</html>

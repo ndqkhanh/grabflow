@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.ride.state.RideStateMachineTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:47" hostname="MacBook-Pro-cua-Khanh.local" time="0.006">
+  <properties/>
+  <testcase name="cancelFromMatched()" classname="grabflow.ride.state.RideStateMachineTest" time="0.0"/>
+  <testcase name="activeRideCountExcludesTerminal()" classname="grabflow.ride.state.RideStateMachineTest" time="0.0"/>
+  <testcase name="happyPathLifecycle()" classname="grabflow.ride.state.RideStateMachineTest" time="0.001"/>
+  <testcase name="nonexistentRideThrows()" classname="grabflow.ride.state.RideStateMachineTest" time="0.0"/>
+  <testcase name="duplicateRideIdThrows()" classname="grabflow.ride.state.RideStateMachineTest" time="0.001"/>
+  <testcase name="createRideStartsInRequested()" classname="grabflow.ride.state.RideStateMachineTest" time="0.0"/>
+  <testcase name="cancelFromInProgress()" classname="grabflow.ride.state.RideStateMachineTest" time="0.001"/>
+  <testcase name="cancelledRideCannotTransition()" classname="grabflow.ride.state.RideStateMachineTest" time="0.0"/>
+  <testcase name="completedRideCannotTransition()" classname="grabflow.ride.state.RideStateMachineTest" time="0.001"/>
+  <testcase name="getRideReturnsLatestState()" classname="grabflow.ride.state.RideStateMachineTest" time="0.0"/>
+  <testcase name="invalidTransitionThrows()" classname="grabflow.ride.state.RideStateMachineTest" time="0.001"/>
+  <testcase name="cancelFromRequested()" classname="grabflow.ride.state.RideStateMachineTest" time="0.0"/>
+  <system-out><![CDATA[19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: REQUESTED -> MATCHED
+19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: MATCHED -> CANCELLED
+19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r2 (rider=rider2)
+19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r3 (rider=rider3)
+19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: REQUESTED -> CANCELLED
+19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r2 transitioned: REQUESTED -> MATCHED
+19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r2 transitioned: MATCHED -> DRIVER_ARRIVING
+19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r2 transitioned: DRIVER_ARRIVING -> IN_PROGRESS
+19:41:47.872 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r2 transitioned: IN_PROGRESS -> COMPLETED
+19:41:47.873 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.873 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: REQUESTED -> MATCHED
+19:41:47.873 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: MATCHED -> DRIVER_ARRIVING
+19:41:47.873 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: DRIVER_ARRIVING -> IN_PROGRESS
+19:41:47.873 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: IN_PROGRESS -> COMPLETED
+19:41:47.874 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.874 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.875 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.875 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: REQUESTED -> MATCHED
+19:41:47.875 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: MATCHED -> DRIVER_ARRIVING
+19:41:47.875 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: DRIVER_ARRIVING -> IN_PROGRESS
+19:41:47.875 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: IN_PROGRESS -> CANCELLED
+19:41:47.875 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.875 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: REQUESTED -> CANCELLED
+19:41:47.876 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.876 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: REQUESTED -> MATCHED
+19:41:47.876 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: MATCHED -> DRIVER_ARRIVING
+19:41:47.876 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: DRIVER_ARRIVING -> IN_PROGRESS
+19:41:47.876 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: IN_PROGRESS -> COMPLETED
+19:41:47.877 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.877 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: REQUESTED -> MATCHED
+19:41:47.877 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.877 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: r1 (rider=rider1)
+19:41:47.878 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride r1 transitioned: REQUESTED -> CANCELLED
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

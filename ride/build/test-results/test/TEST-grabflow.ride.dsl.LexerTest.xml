@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.ride.dsl.LexerTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:47" hostname="MacBook-Pro-cua-Khanh.local" time="0.009">
+  <properties/>
+  <testcase name="unterminatedStringThrows()" classname="grabflow.ride.dsl.LexerTest" time="0.002"/>
+  <testcase name="unexpectedCharacterThrows()" classname="grabflow.ride.dsl.LexerTest" time="0.001"/>
+  <testcase name="tokenizesSingleQuotedStrings()" classname="grabflow.ride.dsl.LexerTest" time="0.001"/>
+  <testcase name="tokenizesFullQuery()" classname="grabflow.ride.dsl.LexerTest" time="0.001"/>
+  <testcase name="keywordsAreCaseInsensitive()" classname="grabflow.ride.dsl.LexerTest" time="0.0"/>
+  <testcase name="tokenizesDottedIdentifier()" classname="grabflow.ride.dsl.LexerTest" time="0.0"/>
+  <testcase name="tokenizesComparisonOperators()" classname="grabflow.ride.dsl.LexerTest" time="0.0"/>
+  <testcase name="tokenizesSimpleQuery()" classname="grabflow.ride.dsl.LexerTest" time="0.0"/>
+  <testcase name="tokenizesStringLiterals()" classname="grabflow.ride.dsl.LexerTest" time="0.001"/>
+  <testcase name="tokenizesDistanceWithUnit()" classname="grabflow.ride.dsl.LexerTest" time="0.0"/>
+  <testcase name="tokenizesDecimalNumbers()" classname="grabflow.ride.dsl.LexerTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

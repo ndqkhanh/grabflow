@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.notification.NotificationServiceTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:45" hostname="MacBook-Pro-cua-Khanh.local" time="0.012">
+  <properties/>
+  <testcase name="constructorRejectsNullDependencies()" classname="grabflow.notification.NotificationServiceTest" time="0.001"/>
+  <testcase name="sendRoutesAndQueuesNotification()" classname="grabflow.notification.NotificationServiceTest" time="0.001"/>
+  <testcase name="multipleUserHistoriesAreIsolated()" classname="grabflow.notification.NotificationServiceTest" time="0.001"/>
+  <testcase name="historyReturnedNewestFirst()" classname="grabflow.notification.NotificationServiceTest" time="0.001"/>
+  <testcase name="historyEmptyForUnknownUser()" classname="grabflow.notification.NotificationServiceTest" time="0.001"/>
+  <testcase name="sendWithCustomChannelPreference()" classname="grabflow.notification.NotificationServiceTest" time="0.001"/>
+  <testcase name="historyRespectedLimit()" classname="grabflow.notification.NotificationServiceTest" time="0.002"/>
+  <testcase name="getHistoryWithInvalidLimitThrows()" classname="grabflow.notification.NotificationServiceTest" time="0.0"/>
+  <testcase name="statsPendingReflectsQueueSize()" classname="grabflow.notification.NotificationServiceTest" time="0.001"/>
+  <testcase name="statsSentCountIncrementsPerSend()" classname="grabflow.notification.NotificationServiceTest" time="0.001"/>
+  <testcase name="sendRecordsHistoryForUser()" classname="grabflow.notification.NotificationServiceTest" time="0.0"/>
+  <system-out><![CDATA[19:41:45.768 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=RIDE_MATCHED result='Great news! Driver Ahmad (Toyota) has been matched to your ride.'
+19:41:45.769 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=57c69aa9-d61a-42ea-9749-4296141003bd userId=user-1 type=RIDE_MATCHED channels=[IN_APP, PUSH]
+19:41:45.769 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=57c69aa9-d61a-42ea-9749-4296141003bd channel=IN_APP success=true
+19:41:45.769 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=57c69aa9-d61a-42ea-9749-4296141003bd channel=PUSH success=true
+19:41:45.769 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=57c69aa9-d61a-42ea-9749-4296141003bd priority=10
+19:41:45.769 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=57c69aa9-d61a-42ea-9749-4296141003bd userId=user-1 type=RIDE_MATCHED channels=2
+19:41:45.770 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=RIDE_MATCHED result='Great news! Driver D1 (Vios) has been matched to your ride.'
+19:41:45.770 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=b8e74308-2a05-42b8-b94c-8df402c2fb49 userId=alice type=RIDE_MATCHED channels=[IN_APP, PUSH]
+19:41:45.770 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=b8e74308-2a05-42b8-b94c-8df402c2fb49 channel=IN_APP success=true
+19:41:45.770 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=b8e74308-2a05-42b8-b94c-8df402c2fb49 channel=PUSH success=true
+19:41:45.770 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=b8e74308-2a05-42b8-b94c-8df402c2fb49 priority=10
+19:41:45.770 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=b8e74308-2a05-42b8-b94c-8df402c2fb49 userId=alice type=RIDE_MATCHED channels=2
+19:41:45.770 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=PAYMENT_RECEIPT result='Payment of 5.00 MYR for your ride on 2026-03-30 has been processed. Ref: R002.'
+19:41:45.770 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=73b7c8ce-acea-4c03-a1b9-410708aaf33f userId=bob type=PAYMENT_RECEIPT channels=[IN_APP, PUSH]
+19:41:45.770 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=73b7c8ce-acea-4c03-a1b9-410708aaf33f channel=IN_APP success=true
+19:41:45.770 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=73b7c8ce-acea-4c03-a1b9-410708aaf33f channel=PUSH success=true
+19:41:45.770 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=73b7c8ce-acea-4c03-a1b9-410708aaf33f priority=5
+19:41:45.770 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=73b7c8ce-acea-4c03-a1b9-410708aaf33f userId=bob type=PAYMENT_RECEIPT channels=2
+19:41:45.771 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=RIDE_STARTED result='Your ride has started. Estimated arrival at Home in 10 minutes.'
+19:41:45.772 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=6ac1a8bb-80cf-47c5-99d3-1c9ee1091c9d userId=user-3 type=RIDE_STARTED channels=[IN_APP, PUSH]
+19:41:45.772 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=6ac1a8bb-80cf-47c5-99d3-1c9ee1091c9d channel=IN_APP success=true
+19:41:45.772 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=6ac1a8bb-80cf-47c5-99d3-1c9ee1091c9d channel=PUSH success=true
+19:41:45.772 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=6ac1a8bb-80cf-47c5-99d3-1c9ee1091c9d priority=8
+19:41:45.772 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=6ac1a8bb-80cf-47c5-99d3-1c9ee1091c9d userId=user-3 type=RIDE_STARTED channels=2
+19:41:45.772 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=RIDE_COMPLETED result='You have arrived at Home. Hope you enjoyed the ride!'
+19:41:45.772 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=9b9941cf-66e8-487c-8137-6c9273d32ddb userId=user-3 type=RIDE_COMPLETED channels=[IN_APP, PUSH]
+19:41:45.772 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=9b9941cf-66e8-487c-8137-6c9273d32ddb channel=IN_APP success=true
+19:41:45.772 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=9b9941cf-66e8-487c-8137-6c9273d32ddb channel=PUSH success=true
+19:41:45.772 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=9b9941cf-66e8-487c-8137-6c9273d32ddb priority=7
+19:41:45.772 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=9b9941cf-66e8-487c-8137-6c9273d32ddb userId=user-3 type=RIDE_COMPLETED channels=2
+19:41:45.773 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Preference registered: user=user-7 type=SURGE_ALERT channels=[EMAIL]
+19:41:45.773 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=SURGE_ALERT result='Surge pricing is active in your area. Current multiplier: 1.8x. Fares will return to normal soon.'
+19:41:45.774 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=b1e350ff-3265-4f35-ad24-0e0bd8aadf97 userId=user-7 type=SURGE_ALERT channels=[EMAIL]
+19:41:45.774 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=b1e350ff-3265-4f35-ad24-0e0bd8aadf97 channel=EMAIL success=true
+19:41:45.774 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=b1e350ff-3265-4f35-ad24-0e0bd8aadf97 priority=3
+19:41:45.774 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=b1e350ff-3265-4f35-ad24-0e0bd8aadf97 userId=user-7 type=SURGE_ALERT channels=1
+19:41:45.775 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=SURGE_ALERT result='Surge pricing is active in your area. Current multiplier: 1x. Fares will return to normal soon.'
+19:41:45.775 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=a83b6bc2-2d82-46ff-b452-1298b087506a userId=user-4 type=SURGE_ALERT channels=[IN_APP, PUSH]
+19:41:45.775 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=a83b6bc2-2d82-46ff-b452-1298b087506a channel=IN_APP success=true
+19:41:45.775 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=a83b6bc2-2d82-46ff-b452-1298b087506a channel=PUSH success=true
+19:41:45.775 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=a83b6bc2-2d82-46ff-b452-1298b087506a priority=3
+19:41:45.775 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=a83b6bc2-2d82-46ff-b452-1298b087506a userId=user-4 type=SURGE_ALERT channels=2
+19:41:45.775 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=SURGE_ALERT result='Surge pricing is active in your area. Current multiplier: 2x. Fares will return to normal soon.'
+19:41:45.775 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=cf4ab6c1-2ba7-4654-b8c5-1a77975bc429 userId=user-4 type=SURGE_ALERT channels=[IN_APP, PUSH]
+19:41:45.775 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=cf4ab6c1-2ba7-4654-b8c5-1a77975bc429 channel=IN_APP success=true
+19:41:45.775 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=cf4ab6c1-2ba7-4654-b8c5-1a77975bc429 channel=PUSH success=true
+19:41:45.775 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=cf4ab6c1-2ba7-4654-b8c5-1a77975bc429 priority=3
+19:41:45.775 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=cf4ab6c1-2ba7-4654-b8c5-1a77975bc429 userId=user-4 type=SURGE_ALERT channels=2
+19:41:45.775 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=SURGE_ALERT result='Surge pricing is active in your area. Current multiplier: 3x. Fares will return to normal soon.'
+19:41:45.775 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=62584061-3307-4d96-9d17-4682ca627fd2 userId=user-4 type=SURGE_ALERT channels=[IN_APP, PUSH]
+19:41:45.776 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=62584061-3307-4d96-9d17-4682ca627fd2 channel=IN_APP success=true
+19:41:45.776 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=62584061-3307-4d96-9d17-4682ca627fd2 channel=PUSH success=true
+19:41:45.776 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=62584061-3307-4d96-9d17-4682ca627fd2 priority=3
+19:41:45.776 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=62584061-3307-4d96-9d17-4682ca627fd2 userId=user-4 type=SURGE_ALERT channels=2
+19:41:45.776 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=SURGE_ALERT result='Surge pricing is active in your area. Current multiplier: 4x. Fares will return to normal soon.'
+19:41:45.776 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=6034d03c-eaba-4c1f-aef4-918449d0fa15 userId=user-4 type=SURGE_ALERT channels=[IN_APP, PUSH]
+19:41:45.776 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=6034d03c-eaba-4c1f-aef4-918449d0fa15 channel=IN_APP success=true
+19:41:45.776 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=6034d03c-eaba-4c1f-aef4-918449d0fa15 channel=PUSH success=true
+19:41:45.776 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=6034d03c-eaba-4c1f-aef4-918449d0fa15 priority=3
+19:41:45.776 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=6034d03c-eaba-4c1f-aef4-918449d0fa15 userId=user-4 type=SURGE_ALERT channels=2
+19:41:45.776 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=SURGE_ALERT result='Surge pricing is active in your area. Current multiplier: 5x. Fares will return to normal soon.'
+19:41:45.776 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=0760542e-0273-4b92-abac-cd4b2ba2e9d6 userId=user-4 type=SURGE_ALERT channels=[IN_APP, PUSH]
+19:41:45.776 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=0760542e-0273-4b92-abac-cd4b2ba2e9d6 channel=IN_APP success=true
+19:41:45.776 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=0760542e-0273-4b92-abac-cd4b2ba2e9d6 channel=PUSH success=true
+19:41:45.776 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=0760542e-0273-4b92-abac-cd4b2ba2e9d6 priority=3
+19:41:45.776 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=0760542e-0273-4b92-abac-cd4b2ba2e9d6 userId=user-4 type=SURGE_ALERT channels=2
+19:41:45.777 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=RIDE_MATCHED result='Great news! Driver Citra (Civic) has been matched to your ride.'
+19:41:45.777 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=46518bf8-3063-4c18-9776-b569b1b31492 userId=user-6 type=RIDE_MATCHED channels=[IN_APP, PUSH]
+19:41:45.777 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=46518bf8-3063-4c18-9776-b569b1b31492 channel=IN_APP success=true
+19:41:45.777 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=46518bf8-3063-4c18-9776-b569b1b31492 channel=PUSH success=true
+19:41:45.778 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=46518bf8-3063-4c18-9776-b569b1b31492 priority=10
+19:41:45.778 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=46518bf8-3063-4c18-9776-b569b1b31492 userId=user-6 type=RIDE_MATCHED channels=2
+19:41:45.778 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=PAYMENT_RECEIPT result='Payment of 9.99 SGD for your ride on 2026-03-30 has been processed. Ref: R001.'
+19:41:45.778 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=401b0185-849e-4986-b973-a97b3f4f05ff userId=user-5 type=PAYMENT_RECEIPT channels=[IN_APP, PUSH]
+19:41:45.778 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=401b0185-849e-4986-b973-a97b3f4f05ff channel=IN_APP success=true
+19:41:45.778 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=401b0185-849e-4986-b973-a97b3f4f05ff channel=PUSH success=true
+19:41:45.778 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=401b0185-849e-4986-b973-a97b3f4f05ff priority=5
+19:41:45.778 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=401b0185-849e-4986-b973-a97b3f4f05ff userId=user-5 type=PAYMENT_RECEIPT channels=2
+19:41:45.778 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=RIDE_COMPLETED result='You have arrived at Office. Hope you enjoyed the ride!'
+19:41:45.778 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=2611e6ab-84b7-4cb1-a540-21abebb39583 userId=user-5 type=RIDE_COMPLETED channels=[IN_APP, PUSH]
+19:41:45.778 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=2611e6ab-84b7-4cb1-a540-21abebb39583 channel=IN_APP success=true
+19:41:45.778 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=2611e6ab-84b7-4cb1-a540-21abebb39583 channel=PUSH success=true
+19:41:45.778 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=2611e6ab-84b7-4cb1-a540-21abebb39583 priority=7
+19:41:45.778 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=2611e6ab-84b7-4cb1-a540-21abebb39583 userId=user-5 type=RIDE_COMPLETED channels=2
+19:41:45.779 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=DRIVER_ARRIVING result='Your driver Budi is arriving in 3 minutes. Look for Honda (B-1234).'
+19:41:45.779 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=62233e7e-23fe-4939-a47e-67810f82ad1d userId=user-2 type=DRIVER_ARRIVING channels=[IN_APP, PUSH]
+19:41:45.779 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=62233e7e-23fe-4939-a47e-67810f82ad1d channel=IN_APP success=true
+19:41:45.779 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=62233e7e-23fe-4939-a47e-67810f82ad1d channel=PUSH success=true
+19:41:45.779 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=62233e7e-23fe-4939-a47e-67810f82ad1d priority=9
+19:41:45.779 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=62233e7e-23fe-4939-a47e-67810f82ad1d userId=user-2 type=DRIVER_ARRIVING channels=2
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

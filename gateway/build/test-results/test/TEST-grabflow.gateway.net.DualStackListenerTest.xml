@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.gateway.net.DualStackListenerTest" tests="35" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:36" hostname="MacBook-Pro-cua-Khanh.local" time="0.048">
+  <properties/>
+  <testcase name="matchBitsZeroPrefixMatchesEverything()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="extractIpv4FromMappedAddress()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.001"/>
+  <testcase name="isIpv4MappedDetectsCorrectly()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.001"/>
+  <testcase name="extractIpv4FromWrongLengthReturnsNull()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="matchBitsFullByteComparison()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[1] 192.168.1.100, 192.168.1.0/24, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.007"/>
+  <testcase name="[2] 192.168.1.0, 192.168.1.0/24, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[3] 192.168.1.255, 192.168.1.0/24, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.001"/>
+  <testcase name="[4] 192.168.2.1, 192.168.1.0/24, false" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[5] 10.0.0.1, 10.0.0.0/8, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[6] 10.255.255.255, 10.0.0.0/8, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[7] 11.0.0.1, 10.0.0.0/8, false" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[8] 172.16.5.4, 172.16.0.0/12, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[9] 172.32.0.1, 172.16.0.0/12, false" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[10] 1.2.3.4, 1.2.3.4/32, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[11] 1.2.3.5, 1.2.3.4/32, false" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[12] 0.0.0.0, 0.0.0.0/0, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.001"/>
+  <testcase name="[13] 255.255.255.255, 0.0.0.0/0, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[1] 2001:db8::1, 2001:db8::/32, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.001"/>
+  <testcase name="[2] 2001:db8:ffff::1, 2001:db8::/32, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.001"/>
+  <testcase name="[3] 2001:db9::1, 2001:db8::/32, false" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[4] ::1, ::1/128, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[5] ::2, ::1/128, false" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[6] fe80::1, fe80::/10, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="[7] fe80::abcd:1234, fe80::/10, true" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="normalizeIpv6RejectsIpv4()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.001"/>
+  <testcase name="normalizeIpv6LoopbackAddress()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.001"/>
+  <testcase name="extractIpv4FromNonMappedReturnsNull()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="invalidCidrThrowsException()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="bindAndCloseLifecycle()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.003"/>
+  <testcase name="invalidPrefixLengthThrowsException()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.002"/>
+  <testcase name="normalizeIpv6ExpandsAbbreviatedAddress()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="matchBitsPartialByte()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="protocolFamilyDetectsIpv4()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <testcase name="protocolFamilyDetectsIpv6()" classname="grabflow.gateway.net.DualStackListenerTest" time="0.0"/>
+  <system-out><![CDATA[19:41:36.762 [Test worker] INFO grabflow.gateway.net.DualStackListener -- IPv4 listener bound to 0.0.0.0:0
+19:41:36.762 [Test worker] INFO grabflow.gateway.net.DualStackListener -- IPv6 listener bound to [::]:0
+19:41:36.762 [Test worker] INFO grabflow.gateway.net.DualStackListener -- IPv4 listener closed
+19:41:36.762 [Test worker] INFO grabflow.gateway.net.DualStackListener -- IPv6 listener closed
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

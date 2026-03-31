@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - DualStackListenerTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>DualStackListenerTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/grabflow.gateway.net.html">grabflow.gateway.net</a> &gt; DualStackListenerTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">35</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.020s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">bindAndCloseLifecycle()</td>
+<td class="success">bindAndCloseLifecycle()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[10] 1.2.3.4, 1.2.3.4/32, true</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[10]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[11] 1.2.3.5, 1.2.3.4/32, false</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[11]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[12] 0.0.0.0, 0.0.0.0/0, true</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[12]</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[13] 255.255.255.255, 0.0.0.0/0, true</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[13]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[1] 192.168.1.100, 192.168.1.0/24, true</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[1]</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[2] 192.168.1.0, 192.168.1.0/24, true</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[2]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[3] 192.168.1.255, 192.168.1.0/24, true</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[3]</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[4] 192.168.2.1, 192.168.1.0/24, false</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[4]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[5] 10.0.0.1, 10.0.0.0/8, true</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[5]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[6] 10.255.255.255, 10.0.0.0/8, true</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[6]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[7] 11.0.0.1, 10.0.0.0/8, false</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[7]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[8] 172.16.5.4, 172.16.0.0/12, true</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[8]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[9] 172.32.0.1, 172.16.0.0/12, false</td>
+<td class="success">cidrMatchingIpv4(String, String, boolean)[9]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[1] 2001:db8::1, 2001:db8::/32, true</td>
+<td class="success">cidrMatchingIpv6(String, String, boolean)[1]</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[2] 2001:db8:ffff::1, 2001:db8::/32, true</td>
+<td class="success">cidrMatchingIpv6(String, String, boolean)[2]</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[3] 2001:db9::1, 2001:db8::/32, false</td>
+<td class="success">cidrMatchingIpv6(String, String, boolean)[3]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[4] ::1, ::1/128, true</td>
+<td class="success">cidrMatchingIpv6(String, String, boolean)[4]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[5] ::2, ::1/128, false</td>
+<td class="success">cidrMatchingIpv6(String, String, boolean)[5]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[6] fe80::1, fe80::/10, true</td>
+<td class="success">cidrMatchingIpv6(String, String, boolean)[6]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[7] fe80::abcd:1234, fe80::/10, true</td>
+<td class="success">cidrMatchingIpv6(String, String, boolean)[7]</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">extractIpv4FromMappedAddress()</td>
+<td class="success">extractIpv4FromMappedAddress()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">extractIpv4FromNonMappedReturnsNull()</td>
+<td class="success">extractIpv4FromNonMappedReturnsNull()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">extractIpv4FromWrongLengthReturnsNull()</td>
+<td class="success">extractIpv4FromWrongLengthReturnsNull()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">invalidCidrThrowsException()</td>
+<td class="success">invalidCidrThrowsException()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">invalidPrefixLengthThrowsException()</td>
+<td class="success">invalidPrefixLengthThrowsException()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">isIpv4MappedDetectsCorrectly()</td>
+<td class="success">isIpv4MappedDetectsCorrectly()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">matchBitsFullByteComparison()</td>
+<td class="success">matchBitsFullByteComparison()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">matchBitsPartialByte()</td>
+<td class="success">matchBitsPartialByte()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">matchBitsZeroPrefixMatchesEverything()</td>
+<td class="success">matchBitsZeroPrefixMatchesEverything()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">normalizeIpv6ExpandsAbbreviatedAddress()</td>
+<td class="success">normalizeIpv6ExpandsAbbreviatedAddress()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">normalizeIpv6LoopbackAddress()</td>
+<td class="success">normalizeIpv6LoopbackAddress()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">normalizeIpv6RejectsIpv4()</td>
+<td class="success">normalizeIpv6RejectsIpv4()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">protocolFamilyDetectsIpv4()</td>
+<td class="success">protocolFamilyDetectsIpv4()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">protocolFamilyDetectsIpv6()</td>
+<td class="success">protocolFamilyDetectsIpv6()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>19:41:36.762 [Test worker] INFO grabflow.gateway.net.DualStackListener -- IPv4 listener bound to 0.0.0.0:0
+19:41:36.762 [Test worker] INFO grabflow.gateway.net.DualStackListener -- IPv6 listener bound to [::]:0
+19:41:36.762 [Test worker] INFO grabflow.gateway.net.DualStackListener -- IPv4 listener closed
+19:41:36.762 [Test worker] INFO grabflow.gateway.net.DualStackListener -- IPv6 listener closed
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.10.2</a> at Mar 31, 2026, 7:41:44 PM</p>
+</div>
+</div>
+</body>
+</html>

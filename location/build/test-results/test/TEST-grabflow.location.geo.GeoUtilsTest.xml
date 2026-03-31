@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="grabflow.location.geo.GeoUtilsTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-03-31T12:41:44" hostname="MacBook-Pro-cua-Khanh.local" time="0.056">
+  <properties/>
+  <testcase name="haversineAntipodalPoints()" classname="grabflow.location.geo.GeoUtilsTest" time="0.024"/>
+  <testcase name="isValidCoordinate()" classname="grabflow.location.geo.GeoUtilsTest" time="0.0"/>
+  <testcase name="destinationPointRoundTrip()" classname="grabflow.location.geo.GeoUtilsTest" time="0.001"/>
+  <testcase name="bearingEastIs90()" classname="grabflow.location.geo.GeoUtilsTest" time="0.001"/>
+  <testcase name="haversineSamePointIsZero()" classname="grabflow.location.geo.GeoUtilsTest" time="0.0"/>
+  <testcase name="bearingNorthIsZero()" classname="grabflow.location.geo.GeoUtilsTest" time="0.0"/>
+  <testcase name="HCMC to Hanoi" classname="grabflow.location.geo.GeoUtilsTest" time="0.008"/>
+  <testcase name="London to Paris" classname="grabflow.location.geo.GeoUtilsTest" time="0.001"/>
+  <testcase name="Same point" classname="grabflow.location.geo.GeoUtilsTest" time="0.001"/>
+  <testcase name="destinationPointKnownResult()" classname="grabflow.location.geo.GeoUtilsTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

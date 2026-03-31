@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - EndToEndRideTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>EndToEndRideTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/grabflow.ride.html">grabflow.ride</a> &gt; EndToEndRideTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">3</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.080s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">completeRideWithPricingAndPayment()</td>
+<td class="success">0.075s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">idempotentPaymentOnRetry()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">rideWithSurgeAndPromoDiscount()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>19:41:47.792 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: e2e-ride-1 (rider=rider-001)
+19:41:47.803 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride e2e-ride-1 transitioned: REQUESTED -&gt; MATCHED
+19:41:47.803 [Test worker] INFO grabflow.ride.RideService -- Ride e2e-ride-1 matched with driver driver-alpha
+19:41:47.823 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride e2e-ride-1 transitioned: MATCHED -&gt; DRIVER_ARRIVING
+19:41:47.823 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride e2e-ride-1 transitioned: DRIVER_ARRIVING -&gt; IN_PROGRESS
+19:41:47.823 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride e2e-ride-1 transitioned: IN_PROGRESS -&gt; COMPLETED
+19:41:47.823 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=5.0 km, time=12.0 min, surge=1.0 -&gt; total=3.96
+19:41:47.823 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=608692970719281151, dist=5.0 km, time=12.0 min, surge=1.0, promo=null, final=3.96
+19:41:47.825 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-bd89186a-ce2f-4425-9b76-e8f5e550b78a] starting with 3 step(s)
+19:41:47.826 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-bd89186a-ce2f-4425-9b76-e8f5e550b78a] executing step 'authorize_payment'
+19:41:47.826 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 3.96 for rider rider-001 (authCode=AUTH-0B520DF6)
+19:41:47.826 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-bd89186a-ce2f-4425-9b76-e8f5e550b78a] step 'authorize_payment' succeeded
+19:41:47.826 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-bd89186a-ce2f-4425-9b76-e8f5e550b78a] executing step 'capture_payment'
+19:41:47.826 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 3.96 against auth AUTH-0B520DF6 (captureId=CAP-5A60B18F)
+19:41:47.826 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-bd89186a-ce2f-4425-9b76-e8f5e550b78a] step 'capture_payment' succeeded
+19:41:47.826 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-bd89186a-ce2f-4425-9b76-e8f5e550b78a] executing step 'pay_driver'
+19:41:47.826 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver driver-alpha amount 3.96 (transferId=TXN-ABCC1A02)
+19:41:47.826 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-bd89186a-ce2f-4425-9b76-e8f5e550b78a] step 'pay_driver' succeeded
+19:41:47.826 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-bd89186a-ce2f-4425-9b76-e8f5e550b78a] completed successfully (3 step(s))
+19:41:47.826 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment bd89186a-ce2f-4425-9b76-e8f5e550b78a (ride=e2e-ride-1, status=CAPTURED, amount=3.96)
+19:41:47.828 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-key-e2e-1' expiring at 2026-04-01T12:41:47.828241Z
+19:41:47.828 [Test worker] INFO grabflow.payment.PaymentService -- Charge bd89186a-ce2f-4425-9b76-e8f5e550b78a for ride e2e-ride-1 completed with status CAPTURED
+19:41:47.831 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=RIDE_COMPLETED result='You have arrived at 10.3, 106.3. Hope you enjoyed the ride!'
+19:41:47.831 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=55fb771c-f714-4b1d-a90e-c5a2b46661ec userId=rider-001 type=RIDE_COMPLETED channels=[IN_APP, PUSH]
+19:41:47.831 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=55fb771c-f714-4b1d-a90e-c5a2b46661ec channel=IN_APP success=true
+19:41:47.831 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=55fb771c-f714-4b1d-a90e-c5a2b46661ec channel=PUSH success=true
+19:41:47.832 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=55fb771c-f714-4b1d-a90e-c5a2b46661ec priority=7
+19:41:47.832 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=55fb771c-f714-4b1d-a90e-c5a2b46661ec userId=rider-001 type=RIDE_COMPLETED channels=2
+19:41:47.832 [Test worker] DEBUG grabflow.notification.TemplateRenderer -- Rendered template type=PAYMENT_RECEIPT result='Payment of 3.96 USD for your ride on 2026-03-31T12:41:47.832285Z has been processed. Ref: bd89186a-ce2f-4425-9b76-e8f5e550b78a.'
+19:41:47.832 [Test worker] INFO grabflow.notification.NotificationRouter -- Routing notification id=46131cde-87ef-4d8c-8768-426eb7825406 userId=rider-001 type=PAYMENT_RECEIPT channels=[IN_APP, PUSH]
+19:41:47.832 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=46131cde-87ef-4d8c-8768-426eb7825406 channel=IN_APP success=true
+19:41:47.832 [Test worker] DEBUG grabflow.notification.NotificationRouter -- Delivered id=46131cde-87ef-4d8c-8768-426eb7825406 channel=PUSH success=true
+19:41:47.832 [Test worker] DEBUG grabflow.notification.NotificationQueue -- Enqueued id=46131cde-87ef-4d8c-8768-426eb7825406 priority=5
+19:41:47.832 [Test worker] INFO grabflow.notification.NotificationService -- Sent notification id=46131cde-87ef-4d8c-8768-426eb7825406 userId=rider-001 type=PAYMENT_RECEIPT channels=2
+19:41:47.837 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: idem-ride-1 (rider=rider-003)
+19:41:47.837 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride idem-ride-1 transitioned: REQUESTED -&gt; MATCHED
+19:41:47.837 [Test worker] INFO grabflow.ride.RideService -- Ride idem-ride-1 matched with driver idem-driver
+19:41:47.837 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride idem-ride-1 transitioned: MATCHED -&gt; DRIVER_ARRIVING
+19:41:47.837 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride idem-ride-1 transitioned: DRIVER_ARRIVING -&gt; IN_PROGRESS
+19:41:47.837 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride idem-ride-1 transitioned: IN_PROGRESS -&gt; COMPLETED
+19:41:47.837 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=2.0 km, time=8.0 min, surge=1.0 -&gt; total=2.44
+19:41:47.837 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=608692970719281151, dist=2.0 km, time=8.0 min, surge=1.0, promo=null, final=2.44
+19:41:47.837 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-8fa89804-a9ad-42b8-847c-f6d1c4bfdef5] starting with 3 step(s)
+19:41:47.837 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-8fa89804-a9ad-42b8-847c-f6d1c4bfdef5] executing step 'authorize_payment'
+19:41:47.837 [Test worker] INFO grabflow.payment.PaymentService$AuthorizeStep -- Authorized 2.44 for rider rider-003 (authCode=AUTH-1778FBEB)
+19:41:47.837 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-8fa89804-a9ad-42b8-847c-f6d1c4bfdef5] step 'authorize_payment' succeeded
+19:41:47.837 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-8fa89804-a9ad-42b8-847c-f6d1c4bfdef5] executing step 'capture_payment'
+19:41:47.837 [Test worker] INFO grabflow.payment.PaymentService$CaptureStep -- Captured 2.44 against auth AUTH-1778FBEB (captureId=CAP-C59A1A6E)
+19:41:47.837 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-8fa89804-a9ad-42b8-847c-f6d1c4bfdef5] step 'capture_payment' succeeded
+19:41:47.837 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-8fa89804-a9ad-42b8-847c-f6d1c4bfdef5] executing step 'pay_driver'
+19:41:47.838 [Test worker] INFO grabflow.payment.PaymentService$PayDriverStep -- Paid driver idem-driver amount 2.44 (transferId=TXN-31BD239D)
+19:41:47.838 [Test worker] DEBUG grabflow.payment.SagaOrchestrator -- Saga [saga-8fa89804-a9ad-42b8-847c-f6d1c4bfdef5] step 'pay_driver' succeeded
+19:41:47.838 [Test worker] INFO grabflow.payment.SagaOrchestrator -- Saga [saga-8fa89804-a9ad-42b8-847c-f6d1c4bfdef5] completed successfully (3 step(s))
+19:41:47.838 [Test worker] INFO grabflow.payment.PaymentLedger -- Ledger: recorded payment 8fa89804-a9ad-42b8-847c-f6d1c4bfdef5 (ride=idem-ride-1, status=CAPTURED, amount=2.44)
+19:41:47.838 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Stored idempotency key 'idem-key-ride-003' expiring at 2026-04-01T12:41:47.838186Z
+19:41:47.838 [Test worker] INFO grabflow.payment.PaymentService -- Charge 8fa89804-a9ad-42b8-847c-f6d1c4bfdef5 for ride idem-ride-1 completed with status CAPTURED
+19:41:47.838 [Test worker] DEBUG grabflow.payment.IdempotencyStore -- Idempotency hit for key 'idem-key-ride-003'
+19:41:47.838 [Test worker] INFO grabflow.payment.PaymentService -- Idempotent duplicate for key 'idem-key-ride-003' — returning cached result
+19:41:47.839 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 608692970719281151
+19:41:47.839 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 608692970719281151
+19:41:47.839 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 608692970719281151
+19:41:47.839 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 608692970719281151
+19:41:47.840 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Demand recorded for zone 608692970719281151
+19:41:47.840 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Supply updated for zone 608692970719281151: 1 drivers
+19:41:47.840 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Zone 608692970719281151 surge: demand=5, supply=1, ratio=5.0, multiplier=2.5
+19:41:47.840 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride created: surge-ride-1 (rider=rider-002)
+19:41:47.840 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride surge-ride-1 transitioned: REQUESTED -&gt; MATCHED
+19:41:47.840 [Test worker] INFO grabflow.ride.RideService -- Ride surge-ride-1 matched with driver surge-driver
+19:41:47.840 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride surge-ride-1 transitioned: MATCHED -&gt; DRIVER_ARRIVING
+19:41:47.840 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride surge-ride-1 transitioned: DRIVER_ARRIVING -&gt; IN_PROGRESS
+19:41:47.840 [Test worker] INFO grabflow.ride.state.RideStateMachine -- Ride surge-ride-1 transitioned: IN_PROGRESS -&gt; COMPLETED
+19:41:47.840 [Test worker] INFO grabflow.pricing.PromoCodeValidator -- Promo code registered: GRAB20 (20.0% off, expires 2026-03-31T13:41:47.840728Z)
+19:41:47.840 [Test worker] DEBUG grabflow.pricing.SurgeCalculator -- Zone 608692970719281151 surge: demand=5, supply=1, ratio=5.0, multiplier=2.5
+19:41:47.840 [Test worker] DEBUG grabflow.pricing.FareEstimator -- Fare estimated: dist=3.0 km, time=10.0 min, surge=2.5 -&gt; total=7.5
+19:41:47.840 [Test worker] DEBUG grabflow.pricing.PromoCodeValidator -- Promo code valid: GRAB20 (20.0% off)
+19:41:47.841 [Test worker] INFO grabflow.pricing.PromoCodeValidator -- Promo GRAB20 applied: 7.5 -&gt; 6.0 (20.0% off)
+19:41:47.841 [Test worker] INFO grabflow.pricing.PricingService -- Price quote: zone=608692970719281151, dist=3.0 km, time=10.0 min, surge=2.5, promo=GRAB20, final=6.0
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.10.2</a> at Mar 31, 2026, 7:41:47 PM</p>
+</div>
+</div>
+</body>
+</html>
