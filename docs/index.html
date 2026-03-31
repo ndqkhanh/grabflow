@@ -1,0 +1,2430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrabFlow — AI-Powered Distributed Ride-Sharing Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --bg-base:        #0a0e1a;
+  --bg-card:        #111827;
+  --bg-card-2:      #1a1f35;
+  --bg-glass:       rgba(26, 31, 53, 0.72);
+  --accent-cyan:    #00d4ff;
+  --accent-orange:  #ff6b35;
+  --accent-green:   #00ff88;
+  --accent-purple:  #a855f7;
+  --accent-yellow:  #fbbf24;
+  --text-primary:   #f0f4ff;
+  --text-secondary: #8892b0;
+  --text-muted:     #4a5568;
+  --border:         rgba(0, 212, 255, 0.12);
+  --border-bright:  rgba(0, 212, 255, 0.35);
+  --glow-cyan:      0 0 24px rgba(0, 212, 255, 0.25);
+  --glow-green:     0 0 24px rgba(0, 255, 136, 0.25);
+  --glow-orange:    0 0 24px rgba(255, 107, 53, 0.25);
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      16px;
+  --font-body:      'Inter', sans-serif;
+  --font-mono:      'JetBrains Mono', monospace;
+  --font-display:   'Syne', sans-serif;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-card-2); border-radius: 2px; }
+
+/* ============================================================
+   LAYOUT SHELL
+   ============================================================ */
+.app {
+  display: grid;
+  grid-template-rows: 52px 1fr 160px;
+  grid-template-columns: 300px 1fr 300px;
+  grid-template-areas:
+    "header header header"
+    "left   map    right"
+    "bottom bottom bottom";
+  height: 100vh;
+  gap: 0;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: rgba(10, 14, 26, 0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  position: relative;
+  z-index: 1000;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  opacity: 0.5;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  box-shadow: var(--glow-cyan);
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, #7dd3fc 50%, var(--accent-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.logo-tagline {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.header-center {
+  display: flex;
+  gap: 8px;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  letter-spacing: 0.3px;
+  border: 1px solid;
+}
+
+.badge-tech {
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.25);
+  color: var(--accent-cyan);
+}
+
+.badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.badge-dot.green { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border-bright);
+  color: var(--text-secondary);
+}
+.btn-ghost:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.btn-primary {
+  background: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  color: var(--bg-base);
+}
+.btn-primary:hover {
+  background: #33ddff;
+  box-shadow: var(--glow-cyan);
+}
+
+.btn-danger {
+  background: rgba(255, 107, 53, 0.15);
+  border-color: rgba(255, 107, 53, 0.4);
+  color: var(--accent-orange);
+}
+.btn-danger:hover {
+  background: rgba(255, 107, 53, 0.25);
+  box-shadow: var(--glow-orange);
+}
+
+/* ============================================================
+   LEFT SIDEBAR
+   ============================================================ */
+.sidebar-left {
+  grid-area: left;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-secondary);
+}
+
+.panel-icon {
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+
+.panel-body {
+  padding: 14px 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Location inputs */
+.location-group {
+  margin-bottom: 14px;
+}
+
+.location-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.location-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.location-dot.pickup { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
+.location-dot.dropoff { background: var(--accent-orange); box-shadow: 0 0 6px var(--accent-orange); }
+
+.location-input {
+  width: 100%;
+  padding: 9px 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.location-input:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1);
+}
+.location-input.active {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 212, 255, 0.06);
+  animation: input-pulse 2s ease infinite;
+}
+
+@keyframes input-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1); }
+  50% { box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.05); }
+}
+
+.location-hint {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* Ride options */
+.ride-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.ride-option {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  background: rgba(255,255,255,0.02);
+}
+.ride-option:hover, .ride-option.selected {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 212, 255, 0.06);
+}
+.ride-option.selected { box-shadow: var(--glow-cyan); }
+
+.ride-option-icon { font-size: 18px; margin-bottom: 4px; }
+.ride-option-name { font-size: 10px; font-weight: 600; color: var(--text-secondary); }
+.ride-option-price { font-size: 11px; font-weight: 700; color: var(--accent-cyan); }
+
+/* DSL Panel */
+.dsl-panel {
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  display: none;
+}
+.dsl-panel.visible { display: block; }
+
+.dsl-header {
+  padding: 6px 10px;
+  background: rgba(168, 85, 247, 0.1);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--accent-purple);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.dsl-code {
+  padding: 10px;
+  background: rgba(0,0,0,0.3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+  color: #a8c8ff;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.dsl-keyword { color: #ff79c6; }
+.dsl-field   { color: #8be9fd; }
+.dsl-value   { color: #f1fa8c; }
+.dsl-op      { color: #ff6b35; }
+
+.compile-steps {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.compile-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.3s ease;
+}
+.compile-step.active { opacity: 1; transform: translateX(0); color: var(--accent-cyan); }
+.compile-step.done   { opacity: 1; transform: translateX(0); color: var(--accent-green); }
+
+.step-icon { width: 12px; height: 12px; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+
+/* Driver cards */
+.driver-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.driver-card {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.02);
+  cursor: pointer;
+  transition: all 0.2s;
+  animation: slideIn 0.3s ease forwards;
+  opacity: 0;
+}
+.driver-card:hover { border-color: var(--accent-cyan); background: rgba(0,212,255,0.04); }
+.driver-card.selected {
+  border-color: var(--accent-green);
+  background: rgba(0,255,136,0.05);
+  box-shadow: var(--glow-green);
+}
+
+@keyframes slideIn {
+  to { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translateX(-12px); }
+}
+
+.driver-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.driver-info { display: flex; align-items: center; gap: 8px; }
+.driver-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.driver-name { font-size: 12px; font-weight: 600; }
+.driver-rating { display: flex; align-items: center; gap: 2px; font-size: 10px; color: var(--accent-yellow); }
+.driver-stats { display: flex; gap: 12px; }
+.driver-stat { font-size: 10px; color: var(--text-muted); }
+.driver-stat span { color: var(--text-primary); font-weight: 600; }
+.driver-eta { font-size: 11px; font-weight: 700; color: var(--accent-cyan); }
+
+/* ============================================================
+   MAP AREA
+   ============================================================ */
+.map-container {
+  grid-area: map;
+  position: relative;
+  overflow: hidden;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/* Leaflet dark theme adjustments */
+.leaflet-tile-pane { filter: brightness(0.6) saturate(0.5) hue-rotate(200deg); }
+.leaflet-control-attribution { display: none !important; }
+.leaflet-control-zoom { display: none !important; }
+
+/* Map overlays */
+.map-overlay {
+  position: absolute;
+  z-index: 500;
+  pointer-events: none;
+}
+
+.map-top-bar {
+  top: 12px; left: 12px; right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  pointer-events: all;
+}
+
+.map-badge {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.map-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.map-control-btn {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: all;
+  font-family: var(--font-body);
+}
+.map-control-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+.map-control-btn.active { border-color: var(--accent-orange); color: var(--accent-orange); background: rgba(255,107,53,0.1); }
+
+/* ============================================================
+   RIGHT SIDEBAR
+   ============================================================ */
+.sidebar-right {
+  grid-area: right;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Metric cards */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.metric-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent-line, var(--accent-cyan));
+}
+
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.metric-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.metric-delta {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  margin-top: 3px;
+}
+.metric-delta.up { color: var(--accent-green); }
+.metric-delta.down { color: var(--accent-orange); }
+
+/* Architecture mini-diagram */
+.arch-mini {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.arch-mini-header {
+  padding: 7px 10px;
+  background: rgba(168, 85, 247, 0.08);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.15);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-purple);
+}
+
+.arch-mini-body {
+  padding: 10px;
+}
+
+.arch-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.arch-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+.arch-node:hover { border-color: var(--accent-cyan); }
+.arch-node.active {
+  border-color: var(--node-color, var(--accent-cyan));
+  background: rgba(0, 212, 255, 0.06);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
+}
+
+.arch-node-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--node-color, var(--accent-cyan));
+  box-shadow: 0 0 6px var(--node-color, var(--accent-cyan));
+}
+.arch-node-label { font-size: 10px; font-weight: 600; flex: 1; }
+.arch-node-tech { font-size: 9px; color: var(--text-muted); font-family: var(--font-mono); }
+.arch-node-latency {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  color: var(--accent-green);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.arch-node.active .arch-node-latency { opacity: 1; }
+
+.arch-arrow {
+  margin-left: 12px;
+  height: 10px;
+  border-left: 1px dashed rgba(0,212,255,0.2);
+  position: relative;
+}
+
+/* GPS Feed */
+.gps-feed {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.gps-feed-header {
+  padding: 7px 10px;
+  background: rgba(0, 212, 255, 0.06);
+  border-bottom: 1px solid var(--border);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.live-dot {
+  width: 5px; height: 5px;
+  background: var(--accent-green);
+  border-radius: 50%;
+  animation: pulse-dot 1s ease infinite;
+}
+
+.gps-log {
+  height: 80px;
+  overflow: hidden;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gps-entry {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: fadeSlideUp 0.3s ease forwards;
+  opacity: 0;
+}
+
+.gps-entry .ts { color: var(--text-muted); }
+.gps-entry .did { color: var(--accent-cyan); }
+.gps-entry .coord { color: var(--accent-green); }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   BOTTOM PANEL — RIDE LIFECYCLE
+   ============================================================ */
+.bottom-panel {
+  grid-area: bottom;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  overflow: hidden;
+}
+
+.lifecycle-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.lifecycle-header {
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.lifecycle-body {
+  flex: 1;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+/* Timeline */
+.timeline {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 10px;
+}
+
+.timeline-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.timeline-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  right: -50%;
+  height: 1px;
+  background: var(--border);
+  transition: background 0.5s ease;
+}
+.timeline-step.completed:not(:last-child)::after { background: var(--accent-green); }
+.timeline-step.active:not(:last-child)::after { background: linear-gradient(90deg, var(--accent-cyan), var(--border)); }
+
+.timeline-dot {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+  margin-bottom: 6px;
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 1;
+}
+.timeline-step.completed .timeline-dot {
+  border-color: var(--accent-green);
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--accent-green);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+.timeline-step.active .timeline-dot {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 212, 255, 0.15);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  animation: ripple 1.5s ease infinite;
+}
+@keyframes ripple {
+  0% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.3), 0 0 0 0 rgba(0, 212, 255, 0.2); }
+  100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.3), 0 0 0 12px rgba(0, 212, 255, 0); }
+}
+
+.timeline-label {
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: var(--text-muted);
+  transition: color 0.3s;
+}
+.timeline-step.active .timeline-label { color: var(--accent-cyan); }
+.timeline-step.completed .timeline-label { color: var(--accent-green); }
+
+.timeline-sub {
+  font-size: 7.5px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-align: center;
+  margin-top: 2px;
+  max-width: 70px;
+  line-height: 1.3;
+}
+
+/* Payment saga */
+.payment-saga {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 6px 0;
+}
+
+.saga-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.saga-box {
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.02);
+  transition: all 0.4s;
+  white-space: nowrap;
+}
+.saga-step.active .saga-box {
+  border-color: var(--accent-purple);
+  color: var(--accent-purple);
+  background: rgba(168, 85, 247, 0.1);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+}
+.saga-step.done .saga-box {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  background: rgba(0, 255, 136, 0.08);
+}
+
+.saga-arrow {
+  font-size: 10px;
+  color: var(--text-muted);
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   ARCHITECTURE PANEL (right portion of bottom)
+   ============================================================ */
+.arch-panel {
+  width: 400px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.arch-canvas-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+#arch-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================================
+   CUSTOM MAP MARKERS
+   ============================================================ */
+.driver-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.driver-icon {
+  font-size: 16px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.8));
+}
+
+.driver-status-ring {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,0.6);
+  margin-top: -1px;
+}
+
+/* ============================================================
+   SURGE HEATMAP CELLS
+   ============================================================ */
+.surge-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 400;
+}
+
+/* ============================================================
+   MODAL / TOAST
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 175px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bg-card-2);
+  border: 1px solid var(--accent-green);
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-green);
+  z-index: 9999;
+  opacity: 0;
+  transition: all 0.3s ease;
+  box-shadow: var(--glow-green);
+  pointer-events: none;
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   SECTION DIVIDER
+   ============================================================ */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 0;
+}
+
+/* ============================================================
+   SCROLLABLE PANELS
+   ============================================================ */
+.panel-body { overflow-y: auto; }
+
+/* ============================================================
+   UTIL
+   ============================================================ */
+.text-cyan    { color: var(--accent-cyan); }
+.text-green   { color: var(--accent-green); }
+.text-orange  { color: var(--accent-orange); }
+.text-purple  { color: var(--accent-purple); }
+.text-yellow  { color: var(--accent-yellow); }
+.text-muted   { color: var(--text-muted); }
+.text-mono    { font-family: var(--font-mono); }
+.fw-700       { font-weight: 700; }
+.fs-10        { font-size: 10px; }
+.fs-11        { font-size: 11px; }
+.flex         { display: flex; }
+.items-center { align-items: center; }
+.gap-6        { gap: 6px; }
+.gap-8        { gap: 8px; }
+.mb-8         { margin-bottom: 8px; }
+.mb-12        { margin-bottom: 12px; }
+
+/* Status badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 600;
+}
+.status-badge.available { background: rgba(0,255,136,0.12); color: var(--accent-green); border: 1px solid rgba(0,255,136,0.25); }
+.status-badge.on-ride   { background: rgba(251,191,36,0.12); color: var(--accent-yellow); border: 1px solid rgba(251,191,36,0.25); }
+.status-badge.offline   { background: rgba(239,68,68,0.12); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+
+/* ============================================================
+   SPARKLINE
+   ============================================================ */
+.sparkline-wrap {
+  margin-top: 6px;
+}
+
+/* ============================================================
+   FLOW ANIMATION DATA PACKET
+   ============================================================ */
+.packet {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--accent-cyan);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ============================================================
+   SECTION LABEL
+   ============================================================ */
+.section-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ============================================================
+   ARCH SERVICE NODES (right sidebar)
+   ============================================================ */
+.service-node {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.service-node::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--svc-color, var(--accent-cyan));
+  border-radius: 0 2px 2px 0;
+}
+.service-node:hover { border-color: var(--svc-color, var(--accent-cyan)); background: rgba(255,255,255,0.02); }
+.service-node.expanded {
+  border-color: var(--svc-color, var(--accent-cyan));
+  background: rgba(0,212,255,0.04);
+}
+.service-node-header { display: flex; align-items: center; justify-content: space-between; }
+.service-node-title { font-size: 11px; font-weight: 700; padding-left: 6px; }
+.service-node-tech { font-size: 9px; color: var(--text-muted); font-family: var(--font-mono); }
+.service-node-expand { font-size: 9px; color: var(--text-muted); transition: transform 0.2s; }
+.service-node.expanded .service-node-expand { transform: rotate(90deg); }
+
+.service-components {
+  display: none;
+  padding-top: 8px;
+  padding-left: 6px;
+}
+.service-node.expanded .service-components { display: flex; flex-wrap: wrap; gap: 4px; }
+
+.component-chip {
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  border: 1px solid;
+  animation: chipIn 0.2s ease forwards;
+  opacity: 0;
+}
+
+@keyframes chipIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ================================================================
+       HEADER
+       ================================================================ -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <div>
+        <div class="logo-text">GrabFlow</div>
+        <div class="logo-tagline">AI-Powered Distributed Ride-Sharing Platform</div>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div class="badge badge-tech">
+        <div class="badge-dot green"></div>
+        Java 21 · Virtual Threads
+      </div>
+      <div class="badge badge-tech">7 Microservices</div>
+      <div class="badge badge-tech">412 Tests · 0 Failures</div>
+      <div class="badge badge-tech">H3 Hexagonal Grid</div>
+    </div>
+
+    <div class="header-actions">
+      <a class="btn btn-ghost" href="https://github.com" target="_blank">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <button class="btn btn-primary" id="requestRideBtn" onclick="startRideRequest()">
+        ▶ Request Ride
+      </button>
+    </div>
+  </header>
+
+  <!-- ================================================================
+       LEFT SIDEBAR
+       ================================================================ -->
+  <aside class="sidebar-left">
+    <div class="panel-header">
+      <div class="panel-icon">🗺</div>
+      <div class="panel-title">Ride Request</div>
+    </div>
+
+    <div class="panel-body">
+      <!-- Location inputs -->
+      <div class="location-group">
+        <div class="location-label">
+          <div class="location-dot pickup"></div>
+          Pickup Location
+        </div>
+        <input
+          type="text"
+          class="location-input"
+          id="pickupInput"
+          placeholder="Click map or type address..."
+          value="Ben Thanh Market, District 1"
+          readonly
+        />
+        <div class="location-hint">Click on map to set pickup point</div>
+      </div>
+
+      <div class="location-group">
+        <div class="location-label">
+          <div class="location-dot dropoff"></div>
+          Drop-off Location
+        </div>
+        <input
+          type="text"
+          class="location-input"
+          id="dropoffInput"
+          placeholder="Click map to set destination..."
+          value="Tan Son Nhat Airport"
+          readonly
+        />
+        <div class="location-hint">Click on map to set destination</div>
+      </div>
+
+      <!-- Ride type selection -->
+      <div class="section-label">Ride Type</div>
+      <div class="ride-options">
+        <div class="ride-option selected" onclick="selectRideType(this, 'GrabCar')">
+          <div class="ride-option-icon">🚗</div>
+          <div class="ride-option-name">GrabCar</div>
+          <div class="ride-option-price">~₫85k</div>
+        </div>
+        <div class="ride-option" onclick="selectRideType(this, 'GrabBike')">
+          <div class="ride-option-icon">🏍</div>
+          <div class="ride-option-name">GrabBike</div>
+          <div class="ride-option-price">~₫45k</div>
+        </div>
+        <div class="ride-option" onclick="selectRideType(this, 'GrabElectric')">
+          <div class="ride-option-icon">⚡</div>
+          <div class="ride-option-name">Electric</div>
+          <div class="ride-option-price">~₫95k</div>
+        </div>
+        <div class="ride-option" onclick="selectRideType(this, 'GrabPool')">
+          <div class="ride-option-icon">🚌</div>
+          <div class="ride-option-name">GrabPool</div>
+          <div class="ride-option-price">~₫55k</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- DSL Panel -->
+      <div class="dsl-panel" id="dslPanel">
+        <div class="dsl-header">▸ DSL Query Compiler</div>
+        <div class="dsl-code" id="dslCode"></div>
+        <div class="compile-steps" id="compileSteps"></div>
+      </div>
+
+      <!-- Matched drivers -->
+      <div id="driverCards" class="driver-cards"></div>
+
+      <!-- Reset button -->
+      <button class="btn btn-danger" id="resetBtn" style="width:100%;display:none;" onclick="resetDemo()">
+        ↺ Reset Demo
+      </button>
+    </div>
+  </aside>
+
+  <!-- ================================================================
+       MAP
+       ================================================================ -->
+  <div class="map-container">
+    <div id="map"></div>
+
+    <!-- Map overlays -->
+    <div class="map-overlay map-top-bar">
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <div class="map-badge">
+          <div class="badge-dot green"></div>
+          <span style="color:var(--accent-green); font-weight:700; font-family:var(--font-mono);" id="activeDriversMap">847</span>
+          <span style="color:var(--text-muted)">drivers online</span>
+        </div>
+        <div class="map-badge">
+          <span style="font-size:10px;">🌐</span>
+          <span style="color:var(--text-muted)">Ho Chi Minh City</span>
+          <span style="color:var(--accent-cyan); font-family:var(--font-mono); font-size:10px;">10.7769°N, 106.7009°E</span>
+        </div>
+      </div>
+
+      <div class="map-controls">
+        <button class="map-control-btn" id="surgeToggle" onclick="toggleSurge()">
+          🌡 Surge Heatmap
+        </button>
+        <button class="map-control-btn" id="hexToggle" onclick="toggleHex()">
+          ⬡ H3 Grid
+        </button>
+        <button class="map-control-btn" onclick="map.setView([10.7769, 106.7009], 13)">
+          ⊕ Re-center
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       RIGHT SIDEBAR
+       ================================================================ -->
+  <aside class="sidebar-right">
+    <div class="panel-header">
+      <div class="panel-icon">📊</div>
+      <div class="panel-title">Live Metrics</div>
+    </div>
+
+    <div class="panel-body">
+      <!-- Metrics grid -->
+      <div class="metrics-grid">
+        <div class="metric-card" style="--accent-line: var(--accent-green)">
+          <div class="metric-value" id="m-drivers">847</div>
+          <div class="metric-label">Active Drivers</div>
+          <div class="metric-delta up" id="m-drivers-delta">+12 last 60s</div>
+        </div>
+        <div class="metric-card" style="--accent-line: var(--accent-cyan)">
+          <div class="metric-value" id="m-rides">123</div>
+          <div class="metric-label">Rides in Progress</div>
+          <div class="metric-delta up" id="m-rides-delta">+5 last 60s</div>
+        </div>
+        <div class="metric-card" style="--accent-line: var(--accent-orange)">
+          <div class="metric-value" id="m-eta">4.2<span style="font-size:10px;color:var(--text-muted)">min</span></div>
+          <div class="metric-label">Avg ETA</div>
+          <div class="metric-delta down" id="m-eta-delta">-0.3 min vs avg</div>
+        </div>
+        <div class="metric-card" style="--accent-line: var(--accent-yellow)">
+          <div class="metric-value" id="m-surge">8</div>
+          <div class="metric-label">Surge Zones</div>
+          <div class="metric-delta up">Peak hours</div>
+        </div>
+        <div class="metric-card" style="--accent-line: var(--accent-purple)">
+          <div class="metric-value" id="m-gps" style="font-size:14px;">2,847</div>
+          <div class="metric-label">GPS Updates/s</div>
+          <div class="metric-delta up">Kafka: 0ms lag</div>
+        </div>
+        <div class="metric-card" style="--accent-line: var(--accent-green)">
+          <div class="metric-value" id="m-latency">12<span style="font-size:10px;color:var(--text-muted)">ms</span></div>
+          <div class="metric-label">P99 Latency</div>
+          <div class="metric-delta up">SLA: &lt;50ms ✓</div>
+        </div>
+      </div>
+
+      <!-- Architecture nodes -->
+      <div class="section-label">Request Flow</div>
+      <div class="arch-mini">
+        <div class="arch-mini-header">▸ Active Service Chain</div>
+        <div class="arch-mini-body">
+          <div class="arch-flow" id="archFlow">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- GPS Log -->
+      <div class="section-label">GPS Event Stream</div>
+      <div class="gps-feed">
+        <div class="gps-feed-header">
+          <div class="live-dot"></div>
+          Live — Kafka Topic: driver.location.updates
+        </div>
+        <div class="gps-log" id="gpsLog"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Services -->
+      <div class="section-label">Microservices</div>
+      <div id="serviceList"></div>
+    </div>
+  </aside>
+
+  <!-- ================================================================
+       BOTTOM PANEL
+       ================================================================ -->
+  <div class="bottom-panel">
+    <div class="lifecycle-panel">
+      <div class="lifecycle-header">
+        <div class="panel-icon">⟳</div>
+        <div class="panel-title">Ride Lifecycle</div>
+        <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+          <span class="text-muted fs-10">Ride ID:</span>
+          <span class="text-mono text-cyan fs-10" id="rideId">—</span>
+        </div>
+      </div>
+      <div class="lifecycle-body">
+        <div class="timeline" id="rideTimeline">
+          <!-- Steps populated by JS -->
+        </div>
+        <div>
+          <div class="section-label" style="margin-bottom:6px;">Payment Saga</div>
+          <div class="payment-saga" id="paymentSaga">
+            <!-- Steps populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture canvas -->
+    <div class="arch-panel">
+      <div class="lifecycle-header">
+        <div class="panel-icon">🏗</div>
+        <div class="panel-title">System Architecture</div>
+      </div>
+      <div class="arch-canvas-wrapper">
+        <canvas id="arch-canvas"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   CONSTANTS & CONFIG
+   ============================================================ */
+const HCMC = [10.7769, 106.7009];
+const BOUNDS = {
+  latMin: 10.70, latMax: 10.84,
+  lngMin: 106.63, lngMax: 106.78
+};
+
+const DRIVER_NAMES = [
+  'Minh Tuan','Van Duc','Hoang Nam','Thi Lan','Quoc Bao',
+  'Thanh Long','Phuoc An','Kim Anh','Duy Khoa','Ngoc Mai',
+  'Trung Kien','Bich Hang','Tuan Anh','Phuong Linh','Quang Huy',
+  'Thu Huong','Dinh Phong','Xuan Trang','Minh Chau','Van Thinh'
+];
+
+const DRIVER_EMOJIS  = ['🚗','🚙','🛻','🚕'];
+const STATUS_LABELS  = ['available','on-ride','offline'];
+const STATUS_COLORS  = { available: '#00ff88', 'on-ride': '#fbbf24', offline: '#ef4444' };
+
+/* ============================================================
+   MAP INIT
+   ============================================================ */
+const map = L.map('map', {
+  center: HCMC,
+  zoom: 13,
+  zoomControl: false,
+  attributionControl: false
+});
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  opacity: 0.7
+}).addTo(map);
+
+/* ============================================================
+   DRIVER SIMULATION
+   ============================================================ */
+let drivers = [];
+let driverMarkers = [];
+let rideRouteLayer = null;
+let hexLayers = [];
+let surgeLayers = [];
+let hexVisible = false;
+let surgeVisible = false;
+let pickupMarker = null;
+let dropoffMarker = null;
+let pickingUp = false;
+let pickingDown = false;
+let matchedDrivers = [];
+let selectedDriverIdx = -1;
+let rideActive = false;
+let rideInterval = null;
+
+function randFloat(min, max) { return Math.random() * (max - min) + min; }
+function randInt(min, max)   { return Math.floor(randFloat(min, max)); }
+
+function initDrivers() {
+  for (let i = 0; i < 20; i++) {
+    const status = i < 12 ? 'available' : i < 17 ? 'on-ride' : 'offline';
+    drivers.push({
+      id:        `DRV-${String(i+1).padStart(3,'0')}`,
+      name:      DRIVER_NAMES[i],
+      lat:       randFloat(BOUNDS.latMin, BOUNDS.latMax),
+      lng:       randFloat(BOUNDS.lngMin, BOUNDS.lngMax),
+      dlat:      (Math.random() - 0.5) * 0.0008,
+      dlng:      (Math.random() - 0.5) * 0.0008,
+      status:    status,
+      rating:    parseFloat(randFloat(4.1, 5.0).toFixed(1)),
+      trips:     randInt(200, 2000),
+      emoji:     DRIVER_EMOJIS[randInt(0, DRIVER_EMOJIS.length)],
+      avatar:    ['🧑','👨','👩','🧔'][randInt(0,4)]
+    });
+  }
+}
+
+function createDriverIcon(driver) {
+  const color = STATUS_COLORS[driver.status];
+  const html = `
+    <div class="driver-marker">
+      <div class="driver-icon">${driver.emoji}</div>
+      <div class="driver-status-ring" style="background:${color};box-shadow:0 0 4px ${color}"></div>
+    </div>`;
+  return L.divIcon({ html, className: '', iconSize: [24, 30], iconAnchor: [12, 30] });
+}
+
+function initMarkers() {
+  drivers.forEach((d, i) => {
+    const marker = L.marker([d.lat, d.lng], { icon: createDriverIcon(d) })
+      .addTo(map)
+      .bindPopup(`
+        <div style="font-family:'Inter',sans-serif;font-size:12px;color:#fff;background:#111827;padding:8px;border-radius:6px;min-width:160px;">
+          <div style="font-weight:700;margin-bottom:4px;">${d.avatar} ${d.name}</div>
+          <div style="color:#8892b0;font-size:10px;margin-bottom:6px;font-family:'JetBrains Mono',monospace">${d.id}</div>
+          <div style="display:flex;gap:12px;">
+            <div><span style="color:#fbbf24">★</span> ${d.rating}</div>
+            <div style="color:#8892b0">${d.trips} trips</div>
+          </div>
+          <div style="margin-top:6px;">
+            <span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;
+              background:${d.status==='available'?'rgba(0,255,136,0.15)':d.status==='on-ride'?'rgba(251,191,36,0.15)':'rgba(239,68,68,0.15)'};
+              color:${STATUS_COLORS[d.status]}">
+              ${d.status}
+            </span>
+          </div>
+        </div>
+      `, {
+        className: 'dark-popup',
+        offset: [0, -10]
+      });
+    driverMarkers.push(marker);
+  });
+}
+
+// Custom popup style
+const popupStyle = document.createElement('style');
+popupStyle.textContent = `
+  .dark-popup .leaflet-popup-content-wrapper {
+    background: #111827 !important; border: 1px solid rgba(0,212,255,0.2) !important;
+    color: #f0f4ff !important; box-shadow: 0 4px 20px rgba(0,0,0,0.6) !important;
+    border-radius: 8px !important;
+  }
+  .dark-popup .leaflet-popup-tip { background: #111827 !important; }
+  .dark-popup .leaflet-popup-content { margin: 0 !important; }
+`;
+document.head.appendChild(popupStyle);
+
+function moveDrivers() {
+  drivers.forEach((d, i) => {
+    if (d.status === 'offline') return;
+    d.lat += d.dlat + (Math.random() - 0.5) * 0.0003;
+    d.lng += d.dlng + (Math.random() - 0.5) * 0.0003;
+    // Bounce off boundaries
+    if (d.lat < BOUNDS.latMin || d.lat > BOUNDS.latMax) d.dlat *= -1;
+    if (d.lng < BOUNDS.lngMin || d.lng > BOUNDS.lngMax) d.dlng *= -1;
+    d.lat = Math.max(BOUNDS.latMin, Math.min(BOUNDS.latMax, d.lat));
+    d.lng = Math.max(BOUNDS.lngMin, Math.min(BOUNDS.lngMax, d.lng));
+    driverMarkers[i].setLatLng([d.lat, d.lng]);
+  });
+}
+
+setInterval(moveDrivers, 1200);
+
+/* ============================================================
+   H3-LIKE HEX GRID
+   ============================================================ */
+function latLngToHex(lat, lng, size) {
+  // Approximate hex grid using offset coordinates
+  const hexH = size * 1.732;
+  const hexW = size * 2;
+  const col = Math.round(lng / (hexW * 0.75));
+  const row = Math.round((lat - (col % 2 === 0 ? 0 : hexH / 2)) / hexH);
+  return { row, col };
+}
+
+function hexCenter(row, col, size) {
+  const hexH = size * 1.732;
+  const hexW = size * 2;
+  return {
+    lat: row * hexH + (col % 2 === 0 ? 0 : hexH / 2),
+    lng: col * hexW * 0.75
+  };
+}
+
+function hexCorners(clat, clng, size) {
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const angle = (Math.PI / 180) * (60 * i - 30);
+    const lngSize = size / Math.cos((clat * Math.PI) / 180);
+    pts.push([clat + size * Math.cos(angle), clng + lngSize * Math.sin(angle)]);
+  }
+  return pts;
+}
+
+function drawHexGrid() {
+  if (hexLayers.length) {
+    hexLayers.forEach(l => map.removeLayer(l));
+    hexLayers = [];
+  }
+  const size = 0.012;
+  const latStep = size * 1.732;
+  const lngStep = size * 1.5;
+
+  for (let lat = BOUNDS.latMin; lat < BOUNDS.latMax; lat += latStep) {
+    for (let lng = BOUNDS.lngMin; lng < BOUNDS.lngMax; lng += lngStep) {
+      const corners = hexCorners(lat, lng, size);
+      const layer = L.polygon(corners, {
+        color: 'rgba(0, 212, 255, 0.4)',
+        weight: 0.8,
+        fillColor: 'transparent',
+        fillOpacity: 0
+      }).addTo(map);
+      hexLayers.push(layer);
+    }
+  }
+}
+
+/* ============================================================
+   SURGE HEATMAP
+   ============================================================ */
+const SURGE_ZONES = [
+  { lat: 10.7769, lng: 106.7009, multiplier: 3.0 },
+  { lat: 10.7950, lng: 106.7200, multiplier: 2.0 },
+  { lat: 10.7600, lng: 106.6800, multiplier: 2.0 },
+  { lat: 10.7850, lng: 106.6900, multiplier: 1.5 },
+  { lat: 10.7500, lng: 106.7300, multiplier: 1.5 },
+  { lat: 10.8000, lng: 106.7100, multiplier: 1.5 },
+  { lat: 10.7700, lng: 106.6700, multiplier: 2.0 },
+  { lat: 10.7650, lng: 106.7400, multiplier: 3.0 },
+];
+
+function surgeColor(m) {
+  if (m >= 3.0) return { fill: '#ef4444', opacity: 0.2 };
+  if (m >= 2.0) return { fill: '#f97316', opacity: 0.18 };
+  if (m >= 1.5) return { fill: '#fbbf24', opacity: 0.16 };
+  return { fill: '#22c55e', opacity: 0.12 };
+}
+
+function drawSurgeHeatmap() {
+  surgeLayers.forEach(l => map.removeLayer(l));
+  surgeLayers = [];
+
+  SURGE_ZONES.forEach(zone => {
+    const size = 0.018;
+    const corners = hexCorners(zone.lat, zone.lng, size);
+    const sc = surgeColor(zone.multiplier);
+    const layer = L.polygon(corners, {
+      color: sc.fill,
+      weight: 1.5,
+      fillColor: sc.fill,
+      fillOpacity: sc.opacity + Math.sin(Date.now() / 1000) * 0.04
+    }).addTo(map)
+      .bindTooltip(`Surge: ${zone.multiplier}x`, {
+        className: 'surge-tooltip',
+        permanent: false,
+        direction: 'center'
+      });
+    surgeLayers.push(layer);
+  });
+}
+
+// Surge pulse animation
+setInterval(() => {
+  if (surgeVisible) drawSurgeHeatmap();
+}, 2000);
+
+const surgeTooltipStyle = document.createElement('style');
+surgeTooltipStyle.textContent = `
+  .surge-tooltip {
+    background: rgba(17,24,39,0.9) !important; border: 1px solid rgba(255,107,53,0.4) !important;
+    color: #ff6b35 !important; font-family: 'JetBrains Mono',monospace !important;
+    font-size: 10px !important; font-weight: 700 !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
+  }
+  .surge-tooltip::before { display: none !important; }
+`;
+document.head.appendChild(surgeTooltipStyle);
+
+function toggleSurge() {
+  const btn = document.getElementById('surgeToggle');
+  surgeVisible = !surgeVisible;
+  if (surgeVisible) {
+    drawSurgeHeatmap();
+    btn.classList.add('active');
+  } else {
+    surgeLayers.forEach(l => map.removeLayer(l));
+    surgeLayers = [];
+    btn.classList.remove('active');
+  }
+}
+
+function toggleHex() {
+  const btn = document.getElementById('hexToggle');
+  hexVisible = !hexVisible;
+  if (hexVisible) {
+    drawHexGrid();
+    btn.classList.add('active');
+  } else {
+    hexLayers.forEach(l => map.removeLayer(l));
+    hexLayers = [];
+    btn.classList.remove('active');
+  }
+}
+
+/* ============================================================
+   METRICS ANIMATION
+   ============================================================ */
+function animateCounter(el, from, to, duration) {
+  const start = performance.now();
+  const suffix = el.innerHTML.match(/(<span.*?<\/span>)$/)?.[1] || '';
+  function update(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const value = from + (to - from) * eased;
+    const display = value >= 1000
+      ? value.toLocaleString('en', { maximumFractionDigits: 0 })
+      : value.toFixed(to % 1 !== 0 ? 1 : 0);
+    el.innerHTML = display + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+function jitterMetrics() {
+  const driversEl = document.getElementById('m-drivers');
+  const ridesEl   = document.getElementById('m-rides');
+  const gpsEl     = document.getElementById('m-gps');
+  const latEl     = document.getElementById('m-latency');
+  const etaEl     = document.getElementById('m-eta');
+
+  const dVal = randInt(830, 860);
+  const rVal = randInt(115, 135);
+  const gVal = randInt(2700, 3100);
+  const lVal = randInt(9, 18);
+  const eVal = randFloat(3.8, 5.0);
+
+  document.getElementById('activeDriversMap').textContent = dVal;
+
+  animateCounter(driversEl, parseInt(driversEl.textContent), dVal, 800);
+  animateCounter(ridesEl,   parseInt(ridesEl.textContent), rVal, 800);
+  animateCounter(gpsEl,     parseInt(gpsEl.textContent.replace(/,/g,'')), gVal, 1000);
+  animateCounter(latEl,     parseInt(latEl.textContent), lVal, 600);
+
+  const etaSuffix = `<span style="font-size:10px;color:var(--text-muted)">min</span>`;
+  etaEl.innerHTML = eVal.toFixed(1) + etaSuffix;
+}
+
+setInterval(jitterMetrics, 4000);
+
+/* ============================================================
+   GPS LOG STREAM
+   ============================================================ */
+function genGpsEntry() {
+  const d = drivers[randInt(0, drivers.length)];
+  const ts = new Date().toLocaleTimeString('en', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  return `<span class="ts">${ts}</span> [<span class="did">${d.id}</span>] lat=<span class="coord">${d.lat.toFixed(4)}</span> lng=<span class="coord">${d.lng.toFixed(4)}</span> spd=${randInt(0,80)}kmh h3=${generateH3Token()}`;
+}
+
+function generateH3Token() {
+  return '88' + Math.random().toString(16).slice(2,14).toUpperCase();
+}
+
+function addGpsEntry() {
+  const log = document.getElementById('gpsLog');
+  const entry = document.createElement('div');
+  entry.className = 'gps-entry';
+  entry.innerHTML = genGpsEntry();
+  log.insertBefore(entry, log.firstChild);
+  if (log.children.length > 8) log.removeChild(log.lastChild);
+}
+
+setInterval(addGpsEntry, 400);
+
+/* ============================================================
+   ARCHITECTURE FLOW NODES
+   ============================================================ */
+const ARCH_NODES = [
+  { label: 'API Gateway', tech: 'Spring Boot 3.2', color: '#00d4ff', latency: '1ms' },
+  { label: 'Ride Service', tech: 'Java 21 · Vthreads', color: '#00ff88', latency: '3ms' },
+  { label: 'Location Service', tech: 'H3 · Redis', color: '#a855f7', latency: '2ms' },
+  { label: 'Matching Engine', tech: 'DSL · AST Walker', color: '#ff6b35', latency: '8ms' },
+  { label: 'Pricing Service', tech: 'Surge Algorithm', color: '#fbbf24', latency: '2ms' },
+  { label: 'Kafka', tech: 'Event Bus', color: '#06b6d4', latency: '<1ms' },
+  { label: 'Payment Service', tech: 'Saga Pattern', color: '#ec4899', latency: '45ms' },
+];
+
+function renderArchFlow() {
+  const container = document.getElementById('archFlow');
+  container.innerHTML = '';
+  ARCH_NODES.forEach((node, i) => {
+    if (i > 0) {
+      const arrow = document.createElement('div');
+      arrow.className = 'arch-arrow';
+      container.appendChild(arrow);
+    }
+    const div = document.createElement('div');
+    div.className = 'arch-node';
+    div.style.setProperty('--node-color', node.color);
+    div.id = `arch-node-${i}`;
+    div.innerHTML = `
+      <div class="arch-node-dot" style="background:${node.color};box-shadow:0 0 6px ${node.color}"></div>
+      <div class="arch-node-label">${node.label}</div>
+      <div class="arch-node-tech">${node.tech}</div>
+      <div class="arch-node-latency">${node.latency}</div>
+    `;
+    div.addEventListener('click', () => {
+      document.querySelectorAll('.arch-node').forEach(n => n.classList.remove('active'));
+      div.classList.add('active');
+    });
+    container.appendChild(div);
+  });
+}
+
+// Animate active nodes during ride request
+let flowAnimInterval = null;
+function animateFlowNodes(callback) {
+  let idx = 0;
+  clearInterval(flowAnimInterval);
+  document.querySelectorAll('.arch-node').forEach(n => n.classList.remove('active'));
+  flowAnimInterval = setInterval(() => {
+    if (idx > 0) document.getElementById(`arch-node-${idx-1}`)?.classList.remove('active');
+    if (idx < ARCH_NODES.length) {
+      document.getElementById(`arch-node-${idx}`)?.classList.add('active');
+      idx++;
+    } else {
+      clearInterval(flowAnimInterval);
+      if (callback) callback();
+    }
+  }, 500);
+}
+
+/* ============================================================
+   SERVICES PANEL
+   ============================================================ */
+const SERVICES = [
+  {
+    name: 'API Gateway', tech: 'Spring Boot 3.2', color: '#00d4ff',
+    components: [
+      { name: 'DNS Resolver', color: '#00d4ff' },
+      { name: 'TLS 1.3', color: '#00d4ff' },
+      { name: 'Bloom Filter', color: '#a855f7' },
+      { name: 'Rate Limiter', color: '#ff6b35' },
+      { name: 'JWT Auth', color: '#fbbf24' },
+    ]
+  },
+  {
+    name: 'Ride Service', tech: 'Vthreads · Hibernate', color: '#00ff88',
+    components: [
+      { name: 'State Machine', color: '#00ff88' },
+      { name: 'Saga Coord.', color: '#ec4899' },
+      { name: 'Outbox Pattern', color: '#00ff88' },
+      { name: 'Event Sourcing', color: '#a855f7' },
+    ]
+  },
+  {
+    name: 'Matching Engine', tech: 'DSL Compiler · H3', color: '#ff6b35',
+    components: [
+      { name: 'Lexer', color: '#ff6b35' },
+      { name: 'AST Parser', color: '#ff6b35' },
+      { name: 'Evaluator', color: '#fbbf24' },
+      { name: 'H3 Spatial', color: '#a855f7' },
+      { name: 'Score Engine', color: '#00ff88' },
+    ]
+  },
+  {
+    name: 'Location Service', tech: 'Redis · Kafka', color: '#a855f7',
+    components: [
+      { name: 'Geo Hash', color: '#a855f7' },
+      { name: 'H3 Indexer', color: '#a855f7' },
+      { name: 'R*Tree', color: '#00d4ff' },
+      { name: 'Kafka Pub', color: '#06b6d4' },
+    ]
+  },
+  {
+    name: 'Payment Service', tech: 'Saga · PostgreSQL', color: '#ec4899',
+    components: [
+      { name: 'Authorize', color: '#ec4899' },
+      { name: 'Capture', color: '#ec4899' },
+      { name: 'Pay Driver', color: '#00ff88' },
+      { name: 'Compensate', color: '#ff6b35' },
+    ]
+  },
+];
+
+function renderServices() {
+  const container = document.getElementById('serviceList');
+  container.innerHTML = '';
+  SERVICES.forEach((svc, i) => {
+    const div = document.createElement('div');
+    div.className = 'service-node';
+    div.style.setProperty('--svc-color', svc.color);
+    div.innerHTML = `
+      <div class="service-node-header">
+        <div class="service-node-title">${svc.name}</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="service-node-tech">${svc.tech}</div>
+          <div class="service-node-expand">▶</div>
+        </div>
+      </div>
+      <div class="service-components">
+        ${svc.components.map((c, ci) => `
+          <div class="component-chip"
+            style="background:${c.color}18;border-color:${c.color}40;color:${c.color};animation-delay:${ci*0.08}s">
+            ${c.name}
+          </div>
+        `).join('')}
+      </div>
+    `;
+    div.addEventListener('click', () => {
+      const wasExpanded = div.classList.contains('expanded');
+      document.querySelectorAll('.service-node').forEach(n => n.classList.remove('expanded'));
+      if (!wasExpanded) div.classList.add('expanded');
+    });
+    container.appendChild(div);
+  });
+}
+
+/* ============================================================
+   RIDE TIMELINE
+   ============================================================ */
+const TIMELINE_STEPS = [
+  { label: 'REQUESTED', icon: '📍', sub: 'Ride Service\nKafka emit' },
+  { label: 'MATCHED', icon: '🔍', sub: 'Matching Engine\nDSL eval' },
+  { label: 'DRIVER_ARRIVING', icon: '🚗', sub: 'Location Svc\nH3 tracking' },
+  { label: 'IN_PROGRESS', icon: '▶', sub: 'GPS stream\nKafka events' },
+  { label: 'COMPLETED', icon: '✓', sub: 'Payment Saga\nOutbox sync' },
+];
+
+function renderTimeline() {
+  const container = document.getElementById('rideTimeline');
+  container.innerHTML = '';
+  TIMELINE_STEPS.forEach((step, i) => {
+    const div = document.createElement('div');
+    div.className = 'timeline-step';
+    div.id = `tstep-${i}`;
+    div.innerHTML = `
+      <div class="timeline-dot">${step.icon}</div>
+      <div class="timeline-label">${step.label}</div>
+      <div class="timeline-sub">${step.sub}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+const PAYMENT_STEPS = [
+  { label: 'AUTHORIZE', id: 'pay-0' },
+  { label: 'CAPTURE', id: 'pay-1' },
+  { label: 'PAY_DRIVER', id: 'pay-2' },
+  { label: 'RECONCILE', id: 'pay-3' },
+];
+
+function renderPaymentSaga() {
+  const container = document.getElementById('paymentSaga');
+  container.innerHTML = '';
+  PAYMENT_STEPS.forEach((step, i) => {
+    const div = document.createElement('div');
+    div.className = 'saga-step';
+    div.id = step.id;
+    div.innerHTML = `<div class="saga-box">${step.label}</div>`;
+    container.appendChild(div);
+    if (i < PAYMENT_STEPS.length - 1) {
+      const arrow = document.createElement('div');
+      arrow.className = 'saga-arrow';
+      arrow.textContent = '→';
+      container.appendChild(arrow);
+    }
+  });
+}
+
+let timelineStep = -1;
+function advanceTimeline() {
+  if (timelineStep < TIMELINE_STEPS.length) {
+    if (timelineStep >= 0) {
+      document.getElementById(`tstep-${timelineStep}`)?.classList.remove('active');
+      document.getElementById(`tstep-${timelineStep}`)?.classList.add('completed');
+    }
+    timelineStep++;
+    if (timelineStep < TIMELINE_STEPS.length) {
+      document.getElementById(`tstep-${timelineStep}`)?.classList.add('active');
+    }
+
+    // Payment saga activates at last step
+    if (timelineStep === TIMELINE_STEPS.length - 1) {
+      animatePaymentSaga();
+    }
+  }
+}
+
+function animatePaymentSaga() {
+  let step = 0;
+  const interval = setInterval(() => {
+    if (step > 0) {
+      document.getElementById(PAYMENT_STEPS[step-1].id)?.classList.remove('active');
+      document.getElementById(PAYMENT_STEPS[step-1].id)?.classList.add('done');
+    }
+    if (step < PAYMENT_STEPS.length) {
+      document.getElementById(PAYMENT_STEPS[step].id)?.classList.add('active');
+      step++;
+    } else {
+      clearInterval(interval);
+      setTimeout(() => {
+        document.getElementById(`tstep-${timelineStep}`)?.classList.remove('active');
+        document.getElementById(`tstep-${timelineStep}`)?.classList.add('completed');
+        showToast('Ride completed! Payment processed successfully ✓');
+        document.getElementById('resetBtn').style.display = 'flex';
+        document.getElementById('requestRideBtn').disabled = false;
+      }, 500);
+    }
+  }, 700);
+}
+
+/* ============================================================
+   DSL PANEL ANIMATION
+   ============================================================ */
+const DSL_QUERY = `<span class="dsl-keyword">MATCH</span> <span class="dsl-field">driver</span>
+<span class="dsl-keyword">WHERE</span>
+  <span class="dsl-field">distance</span> <span class="dsl-op">&lt;</span> <span class="dsl-value">5km</span>
+  <span class="dsl-op">AND</span> <span class="dsl-field">rating</span> <span class="dsl-op">&gt;</span> <span class="dsl-value">4.0</span>
+  <span class="dsl-op">AND</span> <span class="dsl-field">status</span> <span class="dsl-op">=</span> <span class="dsl-value">AVAILABLE</span>
+  <span class="dsl-op">AND</span> <span class="dsl-field">vehicle_type</span> <span class="dsl-op">IN</span> <span class="dsl-value">[CAR, ELECTRIC]</span>
+<span class="dsl-keyword">ORDER BY</span> <span class="dsl-field">distance</span> <span class="dsl-op">ASC</span>
+<span class="dsl-keyword">LIMIT</span> <span class="dsl-value">3</span>`;
+
+const COMPILE_STEPS = [
+  { label: 'Compiling DSL...', icon: '⚙' },
+  { label: 'Lexing tokens...', icon: '🔤' },
+  { label: 'Building AST...', icon: '🌳' },
+  { label: 'Evaluating matches...', icon: '🔍' },
+  { label: 'Scoring candidates...', icon: '📊' },
+  { label: '✓ Found 3 drivers!', icon: '✓' },
+];
+
+function animateDSL(onComplete) {
+  const panel = document.getElementById('dslPanel');
+  const codeEl = document.getElementById('dslCode');
+  const stepsEl = document.getElementById('compileSteps');
+
+  panel.classList.add('visible');
+  codeEl.innerHTML = '';
+  stepsEl.innerHTML = '';
+
+  // Typewriter effect
+  const raw = DSL_QUERY;
+  let shown = '';
+  let charIdx = 0;
+  const stripped = raw.replace(/<[^>]+>/g,'');
+  const chars = stripped.split('');
+  const parts = raw.split(/(<[^>]+>[^<]*<\/[^>]+>)/g).filter(Boolean);
+
+  // Simpler: just set full content with animation
+  setTimeout(() => {
+    codeEl.innerHTML = DSL_QUERY;
+    codeEl.style.animation = 'none';
+    codeEl.offsetHeight; // reflow
+    codeEl.style.opacity = '0';
+    codeEl.style.transition = 'opacity 0.4s';
+    setTimeout(() => { codeEl.style.opacity = '1'; }, 10);
+  }, 100);
+
+  // Render compile steps
+  COMPILE_STEPS.forEach((step, i) => {
+    const div = document.createElement('div');
+    div.className = 'compile-step';
+    div.id = `cstep-${i}`;
+    div.innerHTML = `<div class="step-icon">${step.icon}</div><span>${step.label}</span>`;
+    stepsEl.appendChild(div);
+
+    setTimeout(() => {
+      if (i > 0) document.getElementById(`cstep-${i-1}`)?.classList.replace('active','done');
+      div.classList.add('active');
+      if (i === COMPILE_STEPS.length - 1) {
+        div.classList.replace('active', 'done');
+        setTimeout(onComplete, 400);
+      }
+    }, 400 + i * 500);
+  });
+}
+
+/* ============================================================
+   DRIVER MATCHING
+   ============================================================ */
+const MOCK_DRIVERS = [
+  { id: 'DRV-003', name: 'Hoang Nam',   emoji: '🚗', avatar: '👨', rating: 4.9, trips: 1842, distance: 1.2, eta: 3 },
+  { id: 'DRV-007', name: 'Thanh Long',  emoji: '🚙', avatar: '🧔', rating: 4.8, trips: 967,  distance: 2.1, eta: 5 },
+  { id: 'DRV-012', name: 'Quang Huy',   emoji: '🛻', avatar: '👨', rating: 4.7, trips: 423,  distance: 3.4, eta: 8 },
+];
+
+function renderDriverCards(onSelect) {
+  const container = document.getElementById('driverCards');
+  container.innerHTML = '';
+
+  MOCK_DRIVERS.forEach((d, i) => {
+    const card = document.createElement('div');
+    card.className = 'driver-card';
+    card.style.animationDelay = `${i * 0.12}s`;
+    card.innerHTML = `
+      <div class="driver-card-header">
+        <div class="driver-info">
+          <div class="driver-avatar">${d.avatar}</div>
+          <div>
+            <div class="driver-name">${d.name}</div>
+            <div class="driver-rating">
+              ${'★'.repeat(Math.floor(d.rating))}<span style="color:var(--text-muted)">☆</span>
+              <span style="color:var(--text-primary);margin-left:2px;">${d.rating}</span>
+            </div>
+          </div>
+        </div>
+        <div class="driver-eta">${d.eta} min</div>
+      </div>
+      <div class="driver-stats">
+        <div class="driver-stat"><span>${d.distance}km</span> away</div>
+        <div class="driver-stat"><span>${d.trips}</span> trips</div>
+        <div class="driver-stat"><span>${d.emoji}</span> ${d.id}</div>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.driver-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedDriverIdx = i;
+      onSelect(d, i);
+    });
+    container.appendChild(card);
+  });
+}
+
+/* ============================================================
+   ROUTE ANIMATION
+   ============================================================ */
+function drawRoute(driver, pickup, dropoff) {
+  if (rideRouteLayer) { map.removeLayer(rideRouteLayer); }
+
+  const driverLatLng = [driver.lat || randFloat(10.755, 10.795), driver.lng || randFloat(106.685, 106.730)];
+  const pickupLL = pickup || [10.7752, 106.6983];
+  const dropoffLL = dropoff || [10.8189, 106.6729];
+
+  // Draw dashed route: driver -> pickup -> dropoff
+  const points = [driverLatLng, pickupLL, dropoffLL];
+
+  // Remove previous route layers
+  if (window._routeLayers) window._routeLayers.forEach(l => map.removeLayer(l));
+  window._routeLayers = [];
+
+  // Driver to pickup (cyan)
+  const leg1 = L.polyline([driverLatLng, pickupLL], {
+    color: '#00d4ff', weight: 3, dashArray: '8 4', opacity: 0.85
+  }).addTo(map);
+  window._routeLayers.push(leg1);
+
+  // Pickup to dropoff (orange)
+  const leg2 = L.polyline([pickupLL, dropoffLL], {
+    color: '#ff6b35', weight: 3, dashArray: '10 5', opacity: 0.75
+  }).addTo(map);
+  window._routeLayers.push(leg2);
+
+  // Pickup marker
+  if (pickupMarker) map.removeLayer(pickupMarker);
+  pickupMarker = L.circleMarker(pickupLL, {
+    radius: 8, fillColor: '#00ff88', color: '#fff', weight: 2, fillOpacity: 1
+  }).addTo(map).bindPopup('<span style="font-family:JetBrains Mono;font-size:10px;color:#00ff88">📍 Pickup</span>');
+  window._routeLayers.push(pickupMarker);
+
+  // Dropoff marker
+  if (dropoffMarker) map.removeLayer(dropoffMarker);
+  dropoffMarker = L.circleMarker(dropoffLL, {
+    radius: 8, fillColor: '#ff6b35', color: '#fff', weight: 2, fillOpacity: 1
+  }).addTo(map).bindPopup('<span style="font-family:JetBrains Mono;font-size:10px;color:#ff6b35">🏁 Dropoff</span>');
+  window._routeLayers.push(dropoffMarker);
+
+  map.fitBounds([[...driverLatLng], pickupLL, dropoffLL], { padding: [30, 30] });
+}
+
+/* ============================================================
+   MAIN RIDE REQUEST FLOW
+   ============================================================ */
+function startRideRequest() {
+  if (rideActive) return;
+  rideActive = true;
+
+  const btn = document.getElementById('requestRideBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Matching...';
+
+  // Generate ride ID
+  const rideId = 'RIDE-' + Math.random().toString(36).slice(2,10).toUpperCase();
+  document.getElementById('rideId').textContent = rideId;
+
+  // Reset timeline
+  timelineStep = -1;
+  renderTimeline();
+  renderPaymentSaga();
+  document.querySelectorAll('.saga-step').forEach(s => {
+    s.classList.remove('active','done');
+  });
+
+  // Start architecture flow animation
+  animateFlowNodes(() => {});
+
+  // Animate DSL after short delay
+  setTimeout(() => {
+    animateDSL(() => {
+      // Show driver cards
+      renderDriverCards((driver, idx) => {
+        const pickupLL  = [10.7752, 106.6983];
+        const dropoffLL = [10.8189, 106.6729];
+        drawRoute(drivers[idx] || driver, pickupLL, dropoffLL);
+        showToast(`${driver.emoji} ${driver.name} confirmed — arriving in ${driver.eta} min`);
+        advanceTimeline(); // MATCHED
+
+        // Simulate ride progression
+        let step = 0;
+        const rideProgress = setInterval(() => {
+          step++;
+          if (step <= 3) advanceTimeline();
+          else clearInterval(rideProgress);
+        }, 4000);
+      });
+
+      // Auto-advance first step
+      setTimeout(() => advanceTimeline(), 200); // REQUESTED
+    });
+  }, 600);
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+function resetDemo() {
+  rideActive = false;
+  timelineStep = -1;
+
+  const btn = document.getElementById('requestRideBtn');
+  btn.disabled = false;
+  btn.textContent = '▶ Request Ride';
+  document.getElementById('resetBtn').style.display = 'none';
+
+  document.getElementById('dslPanel').classList.remove('visible');
+  document.getElementById('driverCards').innerHTML = '';
+  document.getElementById('rideId').textContent = '—';
+
+  renderTimeline();
+  renderPaymentSaga();
+
+  if (window._routeLayers) {
+    window._routeLayers.forEach(l => map.removeLayer(l));
+    window._routeLayers = [];
+  }
+
+  clearInterval(flowAnimInterval);
+  document.querySelectorAll('.arch-node').forEach(n => n.classList.remove('active'));
+
+  map.setView(HCMC, 13);
+}
+
+/* ============================================================
+   MAP CLICK — SET PICKUP / DROPOFF
+   ============================================================ */
+let mapClickMode = null;
+
+map.on('click', (e) => {
+  const { lat, lng } = e.latlng;
+  const pickupEl  = document.getElementById('pickupInput');
+  const dropoffEl = document.getElementById('dropoffInput');
+
+  if (!pickupEl.value || pickupEl.classList.contains('active')) {
+    pickupEl.value = `${lat.toFixed(4)}°N, ${lng.toFixed(4)}°E`;
+    pickupEl.classList.remove('active');
+    dropoffEl.classList.add('active');
+  } else if (!dropoffEl.value || dropoffEl.classList.contains('active')) {
+    dropoffEl.value = `${lat.toFixed(4)}°N, ${lng.toFixed(4)}°E`;
+    dropoffEl.classList.remove('active');
+  }
+});
+
+/* ============================================================
+   RIDE TYPE SELECTION
+   ============================================================ */
+function selectRideType(el, type) {
+  document.querySelectorAll('.ride-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('visible');
+  setTimeout(() => toast.classList.remove('visible'), 3000);
+}
+
+/* ============================================================
+   ARCHITECTURE CANVAS (bottom-right)
+   ============================================================ */
+function initArchCanvas() {
+  const canvas = document.getElementById('arch-canvas');
+  const wrapper = canvas.parentElement;
+
+  function resize() {
+    canvas.width  = wrapper.clientWidth;
+    canvas.height = wrapper.clientHeight;
+    drawArch(canvas);
+  }
+
+  const ro = new ResizeObserver(resize);
+  ro.observe(wrapper);
+  resize();
+
+  setInterval(() => drawArch(canvas), 2000);
+}
+
+const ARCH_SERVICES = [
+  { label: 'Client\nApp',       color: '#00d4ff', x: 0.08, y: 0.50 },
+  { label: 'API\nGateway',      color: '#00d4ff', x: 0.22, y: 0.50 },
+  { label: 'Ride\nService',     color: '#00ff88', x: 0.38, y: 0.28 },
+  { label: 'Matching\nEngine',  color: '#ff6b35', x: 0.38, y: 0.72 },
+  { label: 'Location\nSvc',     color: '#a855f7', x: 0.55, y: 0.50 },
+  { label: 'Kafka\nBus',        color: '#06b6d4', x: 0.70, y: 0.28 },
+  { label: 'Payment\nSvc',      color: '#ec4899', x: 0.70, y: 0.72 },
+  { label: 'PostgreSQL',        color: '#f59e0b', x: 0.87, y: 0.40 },
+  { label: 'Redis\nCluster',    color: '#ef4444', x: 0.87, y: 0.70 },
+];
+
+const ARCH_EDGES = [
+  [0, 1], [1, 2], [1, 3], [2, 4], [3, 4],
+  [4, 5], [4, 6], [2, 5], [5, 7], [6, 7], [4, 8], [5, 8]
+];
+
+let archPackets = [];
+
+function drawArch(canvas) {
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Compute positions
+  const nodes = ARCH_SERVICES.map(n => ({
+    ...n, px: n.x * W, py: n.y * H
+  }));
+
+  // Draw edges
+  ARCH_EDGES.forEach(([a, b]) => {
+    const na = nodes[a], nb = nodes[b];
+    ctx.beginPath();
+    ctx.moveTo(na.px, na.py);
+    ctx.lineTo(nb.px, nb.py);
+    ctx.strokeStyle = 'rgba(0,212,255,0.12)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Animated packet
+    if (Math.random() < 0.25) {
+      const t = (Date.now() % 2000) / 2000;
+      const px = na.px + (nb.px - na.px) * t;
+      const py = na.py + (nb.py - na.py) * t;
+      ctx.beginPath();
+      ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = na.color;
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = na.color;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  });
+
+  // Draw nodes
+  const nodeR = Math.min(W, H) * 0.055;
+  nodes.forEach((node, i) => {
+    // Outer glow
+    const grad = ctx.createRadialGradient(node.px, node.py, 0, node.px, node.py, nodeR * 1.4);
+    grad.addColorStop(0, node.color + '22');
+    grad.addColorStop(1, 'transparent');
+    ctx.beginPath();
+    ctx.arc(node.px, node.py, nodeR * 1.4, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Node circle
+    ctx.beginPath();
+    ctx.arc(node.px, node.py, nodeR, 0, Math.PI * 2);
+    ctx.fillStyle = '#111827';
+    ctx.strokeStyle = node.color;
+    ctx.lineWidth = 1.5;
+    ctx.fill();
+    ctx.stroke();
+
+    // Label
+    const lines = node.label.split('\n');
+    ctx.fillStyle = node.color;
+    ctx.font = `600 ${Math.max(8, nodeR * 0.42)}px 'Inter', sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const lineH = nodeR * 0.52;
+    lines.forEach((line, li) => {
+      const yOff = (li - (lines.length - 1) / 2) * lineH;
+      ctx.fillText(line, node.px, node.py + yOff);
+    });
+  });
+}
+
+/* ============================================================
+   RIDE SIMULATION — continuous jitter for realism
+   ============================================================ */
+setInterval(() => {
+  // Randomly change a few driver statuses
+  const idx = randInt(0, drivers.length);
+  const d = drivers[idx];
+  if (d.status === 'available' && Math.random() < 0.15) {
+    d.status = 'on-ride';
+    driverMarkers[idx].setIcon(createDriverIcon(d));
+    setTimeout(() => {
+      d.status = 'available';
+      driverMarkers[idx].setIcon(createDriverIcon(d));
+    }, randInt(8000, 20000));
+  }
+}, 5000);
+
+/* ============================================================
+   INIT
+   ============================================================ */
+initDrivers();
+initMarkers();
+renderArchFlow();
+renderServices();
+renderTimeline();
+renderPaymentSaga();
+initArchCanvas();
+
+// Initial GPS entries
+for (let i = 0; i < 5; i++) setTimeout(addGpsEntry, i * 150);
+
+// Draw H3 grid by default (subtle)
+setTimeout(() => {
+  hexVisible = true;
+  drawHexGrid();
+  document.getElementById('hexToggle').classList.add('active');
+}, 800);
+
+// Initial metric animation
+setTimeout(() => {
+  animateCounter(document.getElementById('m-drivers'), 0, 847, 1500);
+  animateCounter(document.getElementById('m-rides'),   0, 123, 1500);
+  animateCounter(document.getElementById('m-gps'),     0, 2847, 2000);
+  animateCounter(document.getElementById('m-surge'),   0, 8, 1000);
+}, 300);
+
+console.log('%c GrabFlow Demo ', 'background:#0a0e1a;color:#00d4ff;font-family:JetBrains Mono;font-size:18px;padding:8px 16px;border:1px solid #00d4ff;border-radius:4px;');
+console.log('%c AI-Powered Distributed Ride-Sharing Platform ', 'color:#8892b0;font-size:12px;');
+console.log('%c Java 21 · 7 Microservices · 412 Tests · 0 Failures ', 'color:#00ff88;font-size:11px;');
+</script>
+</body>
+</html>
