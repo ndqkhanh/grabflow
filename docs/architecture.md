@@ -570,8 +570,8 @@ double demandForecast = agentForge.forecastDemand(zone, timeWindow);
 - **[trade-offs.md](architecture-tradeoffs.md)** — Deep dive into six key architectural trade-offs.
 - **[dsl-compiler.md](../ride/dsl-compiler.md)** — Grammar and compilation pipeline for the matching DSL.
 - **[payment-saga.md](../payment/saga.md)** — Detailed saga orchestration and recovery.
-- **NexusDB Documentation:** https://github.com/your-org/nexus-db/docs/architecture.md
-- **TurboMQ Documentation:** https://github.com/your-org/turbo-mq/docs/architecture.md
+- **NexusDB Documentation:** https://github.com/ndqkhanh/nexus-db/docs/architecture.md
+- **TurboMQ Documentation:** https://github.com/ndqkhanh/turbo-mq/docs/architecture.md
 - **References:**
   - Kleppmann, M. (2017). *Designing Data-Intensive Applications*. O'Reilly. (Chapters 4, 5, 8 — consensus, replication, transactions)
   - Uber H3 Paper: https://h3geo.org/documentation/
